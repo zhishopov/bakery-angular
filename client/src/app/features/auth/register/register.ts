@@ -30,7 +30,7 @@ export class Register {
         .subscribe({
           next: () => {
             this.router.navigate(['/auth/login'], {
-              queryParams: { registered: 'true' },
+              state: { message: 'Registration successful. Please log in.' },
             });
           },
           error: (err) => {
