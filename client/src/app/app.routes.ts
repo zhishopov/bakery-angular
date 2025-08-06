@@ -1,3 +1,4 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -15,14 +16,19 @@ export const routes: Routes = [
     loadComponent: () => import('./features/menu/menu').then((c) => c.Menu),
   },
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./features/auth/login/login').then((c) => c.Login),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./features/auth/register/register').then((c) => c.Register),
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/auth/login/login').then((c) => c.Login),
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./features/auth/register/register').then((c) => c.Register),
+      },
+    ],
   },
   {
     path: '**',

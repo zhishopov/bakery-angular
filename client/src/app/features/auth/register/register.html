@@ -49,12 +49,6 @@
   <button type="submit">Register</button>
   <p class="login-prompt">
     Already have an account?
-    <button
-      type="button"
-      class="login-button"
-      (click)="router.navigate(['/auth/login'])"
-    >
-      Log In
-    </button>
+    <a routerLink="/auth/login" class="login-button">Log In</a>
   </p>
 </form>

@@ -11,15 +11,16 @@
 }
 
 .login-button {
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
+  display: inline-block;
+  padding: 0.5em 1em;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
   font-weight: bold;
-  margin-left: 5px;
-  text-decoration: underline;
+  transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
-  color: #0056b3;
+  background-color: #45a049;
 }
