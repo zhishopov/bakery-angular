@@ -17,7 +17,6 @@ export class RegisterFormService {
     return this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: [''],
       passwords: this.formBuilder.group(
         {
           password: [
@@ -146,15 +145,13 @@ export class RegisterFormService {
   }
 
   getFormValue(form: FormGroup) {
-    const { username, email, phone } = form.value;
-    const { password, rePassword } = form.value.passwords;
+    const passwordsGroup = form.get('passwords') as FormGroup;
 
     return {
-      username,
-      email,
-      phone,
-      password,
-      rePassword,
+      username: form.get('username')?.value,
+      email: form.get('email')?.value,
+      password: passwordsGroup.get('password')?.value,
+      rePassword: passwordsGroup.get('rePassword')?.value,
     };
   }
 

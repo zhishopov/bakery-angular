@@ -94,22 +94,22 @@
 
       let status = 200;
       let headers = {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": req.headers.origin || "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, X-Authorization, X-Admin",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+        "Access-Control-Max-Age": "86400",
         "Content-Type": "application/json",
       };
-      let result = "";
-      let context;
+      let result = ""; // ✅ declare result outside try/catch
+      let context = null; // ✅ declare context outside try/catch
 
-      // NOTE: the OPTIONS method results in undefined result and also it never processes plugins - keep this in mind
-      if (method == "OPTIONS") {
-        Object.assign(headers, {
-          "Access-Control-Allow-Methods":
-            "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-          "Access-Control-Allow-Credentials": false,
-          "Access-Control-Max-Age": "86400",
-          "Access-Control-Allow-Headers":
-            "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-Authorization, X-Admin",
-        });
+      if (method === "OPTIONS") {
+        res.writeHead(204, headers);
+        res.end();
+        return;
       } else {
         try {
           context = processPlugins();
@@ -119,8 +119,6 @@
             status = err.status || 400;
             result = composeErrorObject(err.code || status, err.message);
           } else {
-            // Unhandled exception, this is due to an error in the service code - REST consumers should never have to encounter this;
-            // If it happens, it must be debugged in a future version of the server
             console.error(err);
             status = 500;
             result = composeErrorObject(500, "Server Error");
@@ -128,15 +126,17 @@
         }
       }
 
-      res.writeHead(status, headers);
-      if (
-        context != undefined &&
-        context.util != undefined &&
-        context.util.throttle
-      ) {
-        await new Promise((r) => setTimeout(r, 500 + Math.random() * 500));
+      if (!res.headersSent) {
+        res.writeHead(status, headers);
+        if (
+          context != undefined &&
+          context.util != undefined &&
+          context.util.throttle
+        ) {
+          await new Promise((r) => setTimeout(r, 500 + Math.random() * 500));
+        }
+        res.end(result || "");
       }
-      res.end(result);
 
       function processPlugins() {
         const context = { params: {} };

@@ -3,40 +3,32 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="username">Username:</label>
-    <input id="username" type="text" formControlName="username" required />
+    <input id="username" type="text" formControlName="username" />
     @if (registerFormService.isUsernameError(registerForm)) {
     <p style="color: red">
       {{ registerFormService.getUsernameErrorMessage(registerForm) }}
     </p>
     }
   </div>
+
   <div>
     <label for="email">Email:</label>
-    <input id="email" type="email" formControlName="email" required />
+    <input id="email" type="email" formControlName="email" />
     @if (registerFormService.isEmailError(registerForm)) {
     <p style="color: red">
       {{ registerFormService.getEmailErrorMessage(registerForm) }}
     </p>
     }
   </div>
-  <div formGroupName="passwords">
+
+  <div [formGroupName]="'passwords'">
     <div>
       <label for="password">Password:</label>
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-        required
-      />
+      <input id="password" type="password" formControlName="password" />
     </div>
     <div>
       <label for="rePassword">Repeat Password:</label>
-      <input
-        id="rePassword"
-        type="password"
-        formControlName="rePassword"
-        required
-      />
+      <input id="rePassword" type="password" formControlName="rePassword" />
     </div>
 
     @if (registerFormService.isPasswordError(registerForm)) {
@@ -49,5 +41,6 @@
     </p>
     }
   </div>
+
   <button type="submit">Register</button>
 </form>

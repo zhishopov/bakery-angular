@@ -1,26 +1,47 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { Observable, tap, map } from 'rxjs';
+
+interface ApiUser {
+  _id: string;
+  email: string;
+  username: string;
+  accessToken: string;
+}
+
+interface User {
+  id: string;
+  email: string;
+  username: string;
+  accessToken: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly apiUrl = 'http://localhost:3030/users';
+  private readonly _currentUser = signal<User | null>(null);
+  private readonly _isLoggedIn = signal<boolean>(false);
   readonly token = signal<string | null>(null);
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<User> {
     return this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/login`, {
-        email,
-        password,
-      })
+      .post<ApiUser>(
+        `${this.apiUrl}/login`,
+        { email, password },
+        { withCredentials: true }
+      )
       .pipe(
-        tap((response) => {
-          this.token.set(response.accessToken);
-          localStorage.setItem('accessToken', response.accessToken);
+        map((apiUser) => this.mapApiUserToUser(apiUser)),
+        tap((user) => {
+          this._currentUser.set(user);
+          this._isLoggedIn.set(true);
+          this.token.set(user.accessToken);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('accessToken', user.accessToken);
         })
       );
   }
@@ -30,32 +51,47 @@ export class AuthService {
     email: string,
     password: string,
     rePassword: string
-  ) {
+  ): Observable<User> {
     return this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/register`, {
-        username,
-        email,
-        password,
-        rePassword,
-      })
+      .post<ApiUser>(
+        `${this.apiUrl}/register`,
+        { username, email, password, rePassword },
+        { withCredentials: true }
+      )
       .pipe(
-        tap((response) => {
-          this.token.set(response.accessToken);
-          localStorage.setItem('accessToken', response.accessToken);
+        map((apiUser) => this.mapApiUserToUser(apiUser)),
+        tap((user) => {
+          this._currentUser.set(user);
+          this._isLoggedIn.set(true);
+          this.token.set(user.accessToken);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('accessToken', user.accessToken);
         })
       );
   }
 
-  logout() {
+  logout(): void {
+    this._currentUser.set(null);
+    this._isLoggedIn.set(false);
     this.token.set(null);
+    localStorage.removeItem('currentUser');
     localStorage.removeItem('accessToken');
   }
 
-  getToken() {
-    return this.token();
+  get currentUser(): User | null {
+    return this._currentUser();
   }
 
-  isLoggedIn(): boolean {
-    return !!this.getToken();
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn();
+  }
+
+  private mapApiUserToUser(apiUser: ApiUser): User {
+    return {
+      id: apiUser._id,
+      email: apiUser.email,
+      username: apiUser.username,
+      accessToken: apiUser.accessToken,
+    };
   }
 }

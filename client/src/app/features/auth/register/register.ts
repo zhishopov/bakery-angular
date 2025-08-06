@@ -19,18 +19,20 @@ export class Register {
 
   onSubmit(): void {
     if (this.registerFormService.isFormValid(this.registerForm)) {
-      const { username, email, phone, password } =
+      const { username, email, password, rePassword } =
         this.registerFormService.getFormValue(this.registerForm);
 
-      this.authService.register(username, email, phone, password).subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          console.log('Registration failed:', err);
-          this.registerFormService.markFormTouched(this.registerForm);
-        },
-      });
+      this.authService
+        .register(username, email, password, rePassword)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            console.log('Registration failed:', err);
+            this.registerFormService.markFormTouched(this.registerForm);
+          },
+        });
     } else {
       this.registerFormService.markFormTouched(this.registerForm);
     }
