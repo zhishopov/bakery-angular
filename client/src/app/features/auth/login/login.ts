@@ -1,38 +1,110 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly formBuilder = inject(FormBuilder);
 
-  email = '';
-  password = '';
-  error = signal('');
+  loginForm: FormGroup;
 
-  loginUser() {
-    if (!this.email || !this.password) {
-      this.error.set('Please enter both email and password.');
-      return;
-    }
-
-    this.authService.login(this.email, this.password).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/menu');
-      },
-      error: () => {
-        this.error.set('Invalid login. Please try again.');
-      },
+  constructor() {
+    this.loginForm = this.formBuilder.group({
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.{6,})[a-zA-Z][a-zA-Z0-9._-]*@gmail\.(com|bg)$/
+          ),
+        ],
+      ],
+      password: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
+
+  get email(): AbstractControl | null {
+    return this.loginForm.get('email');
+  }
+
+  get password(): AbstractControl | null {
+    return this.loginForm.get('password');
+  }
+
+  get isEmailValid(): boolean {
+    return !!this.email?.invalid && (this.email?.dirty || this.email?.touched);
+  }
+
+  get isPasswordValid(): boolean {
+    return (
+      !!this.password?.invalid &&
+      (this.password?.dirty || this.password?.touched)
+    );
+  }
+
+  get emailErrorMessage(): string {
+    if (this.email?.errors?.['required']) return 'Email is required!';
+    if (this.email?.errors?.['pattern']) return 'Email is not valid!';
+    return '';
+  }
+
+  get passwordErrorMessage(): string {
+    if (this.password?.errors?.['required']) return 'Password is required!';
+    if (this.password?.errors?.['minlength'])
+      return 'Password must be at least 5 characters!';
+    return '';
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+
+      this.authService.login(email, password).subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          console.log('Login failed', err);
+          this.markFormGroupTouched();
+        },
+      });
+    }
+  }
+
+  private markFormGroupTouched(): void {
+    Object.keys(this.loginForm.controls).forEach((key) => {
+      const control = this.loginForm.get(key);
+      control?.markAsTouched();
+    });
+  }
+}
+
+export function emailValidator(
+  emailControl: AbstractControl
+): ValidationErrors | null {
+  const emailRegex = /^(?=.{6,})[a-zA-Z][a-zA-Z0-9._-]*@gmail\.(com|bg)$/;
+
+  const email = emailControl.value;
+
+  if (email && !emailRegex.test(email)) {
+    return { emailValidator: true };
+  }
+
+  return null;
 }
