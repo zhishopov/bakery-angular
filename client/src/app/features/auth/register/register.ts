@@ -16,7 +16,6 @@ export class Register {
   readonly router = inject(Router);
 
   public serverError: string | null = null;
-
   readonly registerForm: FormGroup = this.registerFormService.createForm();
 
   onSubmit(): void {
@@ -30,7 +29,9 @@ export class Register {
         .register(username, email, password, rePassword)
         .subscribe({
           next: () => {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/auth/login'], {
+              queryParams: { registered: 'true' },
+            });
           },
           error: (err) => {
             this.registerFormService.markFormTouched(this.registerForm);

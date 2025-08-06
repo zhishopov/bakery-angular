@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 interface ApiUser {
   _id: string;
@@ -25,7 +25,15 @@ export class AuthService {
   private readonly _isLoggedIn = signal<boolean>(false);
   readonly token = signal<string | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      const user: User = JSON.parse(savedUser);
+      this._currentUser.set(user);
+      this._isLoggedIn.set(true);
+      this.token.set(user.accessToken);
+    }
+  }
 
   login(email: string, password: string): Observable<User> {
     return this.http
@@ -36,12 +44,13 @@ export class AuthService {
       )
       .pipe(
         map((apiUser) => this.mapApiUserToUser(apiUser)),
-        tap((user) => {
+        map((user) => {
           this._currentUser.set(user);
           this._isLoggedIn.set(true);
           this.token.set(user.accessToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('accessToken', user.accessToken);
+          return user;
         })
       );
   }
@@ -51,32 +60,17 @@ export class AuthService {
     email: string,
     password: string,
     rePassword: string
-  ): Observable<User> {
-    return this.http
-      .post<ApiUser>(
-        `${this.apiUrl}/register`,
-        { username, email, password, rePassword },
-        { withCredentials: true }
-      )
-      .pipe(
-        map((apiUser) => this.mapApiUserToUser(apiUser)),
-        tap((user) => {
-          this._currentUser.set(user);
-          this._isLoggedIn.set(true);
-          this.token.set(user.accessToken);
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          localStorage.setItem('accessToken', user.accessToken);
-        })
-      );
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/register`,
+      { username, email, password, rePassword },
+      { withCredentials: true }
+    );
   }
 
   logout(): Observable<void> {
     return this.http
-      .post<void>(
-        'http://localhost:3030/users/logout',
-        {},
-        { withCredentials: true }
-      )
+      .post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true })
       .pipe(
         tap(() => {
           this._currentUser.set(null);
