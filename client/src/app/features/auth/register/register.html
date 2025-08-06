@@ -41,6 +41,10 @@
     </p>
     }
   </div>
-
+  @if (serverError) {
+  <div class="server-error">
+    {{ serverError }}
+  </div>
+  }
   <button type="submit">Register</button>
 </form>

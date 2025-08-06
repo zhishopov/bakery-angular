@@ -15,9 +15,13 @@ export class Register {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  public serverError: string | null = null;
+
   readonly registerForm: FormGroup = this.registerFormService.createForm();
 
   onSubmit(): void {
+    this.serverError = null;
+
     if (this.registerFormService.isFormValid(this.registerForm)) {
       const { username, email, password, rePassword } =
         this.registerFormService.getFormValue(this.registerForm);
@@ -29,8 +33,15 @@ export class Register {
             this.router.navigate(['/home']);
           },
           error: (err) => {
-            console.log('Registration failed:', err);
             this.registerFormService.markFormTouched(this.registerForm);
+
+            const errorMsg =
+              err?.error?.message ||
+              err?.error?.error?.message ||
+              'Registration failed. Please try again.';
+
+            this.serverError = errorMsg;
+            console.warn('Backend error:', this.serverError);
           },
         });
     } else {
