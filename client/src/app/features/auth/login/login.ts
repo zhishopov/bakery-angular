@@ -7,7 +7,6 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -26,15 +25,7 @@ export class Login {
 
   constructor() {
     this.loginForm = this.formBuilder.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?=.{6,})[a-zA-Z][a-zA-Z0-9._-]*@gmail\.(com|bg)$/
-          ),
-        ],
-      ],
+      email: ['', [Validators.required, Validators.email]], // ✅ Any valid email
       password: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
@@ -60,14 +51,15 @@ export class Login {
 
   get emailErrorMessage(): string {
     if (this.email?.errors?.['required']) return 'Email is required!';
-    if (this.email?.errors?.['pattern']) return 'Email is not valid!';
+    if (this.email?.errors?.['email']) return 'Email is not valid!';
     return '';
   }
 
   get passwordErrorMessage(): string {
     if (this.password?.errors?.['required']) return 'Password is required!';
-    if (this.password?.errors?.['minlength'])
+    if (this.password?.errors?.['minlength']) {
       return 'Password must be at least 5 characters!';
+    }
     return '';
   }
 
@@ -93,18 +85,4 @@ export class Login {
       control?.markAsTouched();
     });
   }
-}
-
-export function emailValidator(
-  emailControl: AbstractControl
-): ValidationErrors | null {
-  const emailRegex = /^(?=.{6,})[a-zA-Z][a-zA-Z0-9._-]*@gmail\.(com|bg)$/;
-
-  const email = emailControl.value;
-
-  if (email && !emailRegex.test(email)) {
-    return { emailValidator: true };
-  }
-
-  return null;
 }
