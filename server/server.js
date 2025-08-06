@@ -1463,7 +1463,7 @@
         name: "Espresso",
         price: 2.5,
         description: "Strong and bold espresso shot.",
-        image: "/images/coffee.jpg",
+        image: "coffee.jpg",
         likes: 0,
       },
       {
@@ -1471,7 +1471,7 @@
         name: "Latte",
         price: 3.5,
         description: "Creamy latte with steamed milk.",
-        image: "/images/latte.webp",
+        image: "latte.webp",
         likes: 0,
         bestSeller: true,
       },
@@ -1480,7 +1480,7 @@
         name: "Cappuccino",
         price: 3.0,
         description: "Rich cappuccino with a velvety foam.",
-        image: "/images/cappuccino.avif",
+        image: "cappuccino.avif",
         likes: 0,
       },
       {
@@ -1488,7 +1488,7 @@
         name: "Americano",
         price: 2.75,
         description: "Smooth Americano for a gentle start.",
-        image: "/images/americano.avif",
+        image: "americano.avif",
         likes: 0,
       },
       {
@@ -1496,7 +1496,7 @@
         name: "Mocha",
         price: 3.75,
         description: "Delicious mocha with a hint of chocolate.",
-        image: "/images/mocha.avif",
+        image: "mocha.avif",
         likes: 0,
       },
       {
@@ -1504,7 +1504,7 @@
         name: "Sausage Roll",
         price: 2.0,
         description: "Flaky pastry filled with seasoned sausage.",
-        image: "/images/sausage-roll.avif",
+        image: "sausage-roll.avif",
         likes: 0,
         bestSeller: true,
       },
@@ -1513,7 +1513,7 @@
         name: "Bacon Bap",
         price: 2.5,
         description: "Toasted bap loaded with crispy bacon and butter.",
-        image: "/images/bacon-bap.webp",
+        image: "bacon-bap.webp",
         likes: 0,
       },
       {
@@ -1521,7 +1521,7 @@
         name: "Croissant",
         price: 2.75,
         description: "Buttery, flaky croissant, freshly baked.",
-        image: "/images/croissant.avif",
+        image: "croissant.avif",
         likes: 0,
       },
       {
@@ -1529,7 +1529,7 @@
         name: "Muffin",
         price: 2.25,
         description: "Moist muffin available in blueberry or chocolate chip.",
-        image: "/images/muffin.avif",
+        image: "muffin.avif",
         likes: 0,
         bestSeller: true,
       },
@@ -1538,7 +1538,7 @@
         name: "Scone",
         price: 2.0,
         description: "Traditional scone served with jam and clotted cream.",
-        image: "/images/scone.avif",
+        image: "scone.avif",
         likes: 0,
       },
       {
@@ -1546,7 +1546,7 @@
         name: "Bagel with Cream Cheese",
         price: 3.0,
         description: "Freshly baked bagel topped with smooth cream cheese.",
-        image: "/images/bagel-cream-cheese.webp",
+        image: "bagel-cream-cheese.webp",
         likes: 0,
       },
       {
@@ -1554,7 +1554,7 @@
         name: "Bacon Sandwich",
         price: 4.0,
         description: "Crispy bacon with lettuce and tomato on artisan bread.",
-        image: "/images/bacon-sandwich.webp",
+        image: "bacon-sandwich.webp",
         likes: 0,
       },
       {
@@ -1562,7 +1562,7 @@
         name: "Ham & Cheese Toastie",
         price: 3.5,
         description: "Grilled toastie with ham and melted cheese.",
-        image: "/images/ham-cheese-toastie.webp",
+        image: "ham-cheese-toastie.webp",
         likes: 0,
       },
       {
@@ -1570,7 +1570,7 @@
         name: "Veggie Quiche",
         price: 4.5,
         description: "Savory quiche filled with fresh vegetables and cheese.",
-        image: "/images/veggie-quiche.webp",
+        image: "veggie-quiche.webp",
         likes: 0,
       },
       {
@@ -1578,7 +1578,7 @@
         name: "Chicken Salad Wrap",
         price: 5.0,
         description: "Healthy wrap with grilled chicken and crisp veggies.",
-        image: "images/chicken-salad-wrap.webp",
+        image: "chicken-salad-wrap.webp",
         likes: 0,
       },
       {
@@ -1586,7 +1586,7 @@
         name: "Cheese Danish",
         price: 3.0,
         description: "Sweet Danish pastry with a rich cheese filling.",
-        image: "/images/cheese-danish.webp",
+        image: "cheese-danish.webp",
         likes: 0,
       },
       {
@@ -1595,7 +1595,7 @@
         price: 4.0,
         description:
           "Pastry tart filled with cream and topped with fresh fruit.",
-        image: "/images/fruit-tart.webp",
+        image: "fruit-tart.webp",
         likes: 0,
       },
       {
@@ -1603,7 +1603,7 @@
         name: "Blueberry Muffin",
         price: 2.5,
         description: "Delicious muffin bursting with blueberries.",
-        image: "/images/blueberry-muffin.avif",
+        image: "blueberry-muffin.avif",
         likes: 0,
       },
       {
@@ -1611,7 +1611,7 @@
         name: "Chocolate Cake Slice",
         price: 3.75,
         description: "Rich slice of chocolate cake with creamy frosting.",
-        image: "/images/chocolate-cake.avif",
+        image: "chocolate-cake.avif",
         likes: 0,
       },
       {
@@ -1619,7 +1619,7 @@
         name: "Carrot Cake",
         price: 3.5,
         description: "Moist carrot cake with a light cream cheese frosting.",
-        image: "/images/carrot-cake.avif",
+        image: "carrot-cake.avif",
         likes: 0,
       },
     ],
