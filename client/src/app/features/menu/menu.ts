@@ -5,7 +5,6 @@ import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-menu',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
@@ -19,5 +18,12 @@ export class Menu {
     effect(() => {
       this.productService.getAll().subscribe((data) => this.products.set(data));
     });
+  }
+
+  likeProduct(id: string): void {
+    const updated = this.products().map((product) =>
+      product._id === id ? { ...product, likes: product.likes + 1 } : product
+    );
+    this.products.set(updated);
   }
 }
