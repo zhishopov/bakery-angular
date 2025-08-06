@@ -3,3 +3,23 @@
   margin-bottom: 1rem;
   font-weight: 500;
 }
+
+.login-prompt {
+  margin-top: 1.5rem;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+.login-button:hover {
+  color: #0056b3;
+}

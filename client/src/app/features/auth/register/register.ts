@@ -13,7 +13,7 @@ import { RegisterFormService } from '../forms/register.form';
 export class Register {
   readonly registerFormService = inject(RegisterFormService);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
+  readonly router = inject(Router);
 
   public serverError: string | null = null;
 
