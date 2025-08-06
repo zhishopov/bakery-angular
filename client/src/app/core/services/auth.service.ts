@@ -6,52 +6,37 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = 'http://localhost:3030/users/login';
-
+  private readonly apiUrl = 'http://localhost:3030/users';
   readonly token = signal<string | null>(null);
-  readonly user = signal<any | null>(null); // Can be typed more strictly later
 
   constructor(private http: HttpClient) {
     const storedToken = localStorage.getItem('accessToken');
-    const storedUser = localStorage.getItem('user');
-
-    if (storedToken) this.token.set(storedToken);
-    if (storedUser) this.user.set(JSON.parse(storedUser));
+    if (storedToken) {
+      this.token.set(storedToken);
+    }
   }
 
   login(email: string, password: string) {
     return this.http
-      .post<{ accessToken: string; _id: string; email: string }>(this.apiUrl, {
+      .post<{ accessToken: string }>(`${this.apiUrl}/login`, {
         email,
         password,
       })
       .pipe(
         tap((response) => {
           this.token.set(response.accessToken);
-          this.user.set({ _id: response._id, email: response.email });
-
           localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem(
-            'user',
-            JSON.stringify({ _id: response._id, email: response.email })
-          );
         })
       );
   }
 
   logout() {
     this.token.set(null);
-    this.user.set(null);
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
   }
 
   getToken() {
     return this.token();
-  }
-
-  getUser() {
-    return this.user();
   }
 
   isLoggedIn(): boolean {

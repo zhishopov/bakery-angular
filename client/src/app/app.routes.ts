@@ -5,6 +5,7 @@ import { Login } from './features/auth/login/login';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  { path: 'home', component: Home },
   { path: 'menu', component: Menu },
   { path: 'login', component: Login },
 ];
