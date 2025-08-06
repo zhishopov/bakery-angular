@@ -70,12 +70,22 @@ export class AuthService {
       );
   }
 
-  logout(): void {
-    this._currentUser.set(null);
-    this._isLoggedIn.set(false);
-    this.token.set(null);
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('accessToken');
+  logout(): Observable<void> {
+    return this.http
+      .post<void>(
+        'http://localhost:3030/users/logout',
+        {},
+        { withCredentials: true }
+      )
+      .pipe(
+        tap(() => {
+          this._currentUser.set(null);
+          this._isLoggedIn.set(false);
+          this.token.set(null);
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('accessToken');
+        })
+      );
   }
 
   get currentUser(): User | null {
@@ -89,8 +99,8 @@ export class AuthService {
   private mapApiUserToUser(apiUser: ApiUser): User {
     return {
       id: apiUser._id,
-      email: apiUser.email,
       username: apiUser.username,
+      email: apiUser.email,
       accessToken: apiUser.accessToken,
     };
   }

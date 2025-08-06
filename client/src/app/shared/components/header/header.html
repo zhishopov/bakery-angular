@@ -1,7 +1,11 @@
 <header>
   <nav>
-    <a routerLink="/home">Home</a> | <a routerLink="/menu">Menu</a> |
+    <a routerLink="/">Home</a> | <a routerLink="/menu">Menu</a> | @if
+    (isLoggedIn$) {
+    <button (click)="logout()">Logout</button>
+    } @else {
     <a routerLink="/auth/login">Login</a> |
     <a routerLink="/auth/register">Register</a>
+    }
   </nav>
 </header>
