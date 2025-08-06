@@ -1,0 +1,53 @@
+<h2>Register</h2>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="username">Username:</label>
+    <input id="username" type="text" formControlName="username" required />
+    @if (registerFormService.isUsernameError(registerForm)) {
+    <p style="color: red">
+      {{ registerFormService.getUsernameErrorMessage(registerForm) }}
+    </p>
+    }
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email" required />
+    @if (registerFormService.isEmailError(registerForm)) {
+    <p style="color: red">
+      {{ registerFormService.getEmailErrorMessage(registerForm) }}
+    </p>
+    }
+  </div>
+  <div formGroupName="passwords">
+    <div>
+      <label for="password">Password:</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        required
+      />
+    </div>
+    <div>
+      <label for="rePassword">Repeat Password:</label>
+      <input
+        id="rePassword"
+        type="password"
+        formControlName="rePassword"
+        required
+      />
+    </div>
+
+    @if (registerFormService.isPasswordError(registerForm)) {
+    <p style="color: red">
+      {{ registerFormService.getPasswordErrorMessage(registerForm) }}
+    </p>
+    } @if (registerFormService.isRePasswordError(registerForm)) {
+    <p style="color: red">
+      {{ registerFormService.getRePasswordErrorMessage(registerForm) }}
+    </p>
+    }
+  </div>
+  <button type="submit">Register</button>
+</form>
