@@ -1,11 +1,11 @@
 <header>
   <nav>
-    <a routerLink="/">Home</a> | <a routerLink="/menu">Menu</a> | @if
-    (isLoggedIn) {
-    <button (click)="logout()">Logout</button>
-    } @else {
-    <a routerLink="/auth/login">Login</a> |
+    <a routerLink="/home">Home</a> | <a routerLink="/menu">Menu</a> | @if
+    (!isLoggedIn) { <a routerLink="/auth/login">Login</a> |
     <a routerLink="/auth/register">Register</a>
+    } @else {
+    <span>Welcome, {{ userEmail }}</span>
+    <button (click)="logout()">Logout</button>
     }
   </nav>
 </header>

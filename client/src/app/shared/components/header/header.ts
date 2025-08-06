@@ -4,15 +4,19 @@ import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
+  imports: [RouterLink],
 })
 export class Header {
   private readonly authService = inject(AuthService);
 
   get isLoggedIn() {
     return this.authService.isLoggedIn;
+  }
+
+  get userEmail(): string | null {
+    return this.authService.currentUser?.email ?? null;
   }
 
   logout(): void {
