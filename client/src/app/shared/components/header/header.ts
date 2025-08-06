@@ -11,7 +11,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class Header {
   private readonly authService = inject(AuthService);
 
-  get isLoggedIn$() {
+  get isLoggedIn() {
     return this.authService.isLoggedIn;
   }
 
