@@ -20,10 +20,24 @@ export class Menu {
     });
   }
 
-  likeProduct(id: string): void {
-    const updated = this.products().map((product) =>
-      product._id === id ? { ...product, likes: product.likes + 1 } : product
-    );
-    this.products.set(updated);
+  likeProduct(id: string) {
+    const updatedProducts = this.products().map((product) => {
+      if (product._id === id) {
+        const updatedLikes = product.likes + 1;
+
+        this.productService
+          .likeProduct(id, updatedLikes)
+          .subscribe((updatedProduct) => {
+            this.products.set(
+              this.products().map((p) => (p._id === id ? updatedProduct : p))
+            );
+          });
+
+        return { ...product, likes: updatedLikes };
+      }
+      return product;
+    });
+
+    this.products.set(updatedProducts);
   }
 }

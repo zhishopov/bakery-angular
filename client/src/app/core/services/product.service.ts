@@ -14,4 +14,10 @@ export class ProductService {
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
+
+  likeProduct(id: string, newLikes: number): Observable<Product> {
+    return this.http.patch<Product>(`${this.apiUrl}/${id}`, {
+      likes: newLikes,
+    });
+  }
 }
