@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../models/product';
@@ -7,7 +7,7 @@ import { signal, effect } from '@angular/core';
 
 @Component({
   selector: 'app-details',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './details.html',
   styleUrl: './details.css',
 })
