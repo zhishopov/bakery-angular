@@ -10,8 +10,6 @@
     alt="{{ product.name }}"
     width="200"
   />
-  <p>Likes: {{ product.likes }}</p>
-  <button (click)="likeProduct(product._id)">👍 Like</button>
   <button type="button" [routerLink]="['/products', product._id]">
     Details
   </button>

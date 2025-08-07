@@ -20,25 +20,4 @@ export class Menu {
       this.productService.getAll().subscribe((data) => this.products.set(data));
     });
   }
-
-  likeProduct(id: string) {
-    const updatedProducts = this.products().map((product) => {
-      if (product._id === id) {
-        const updatedLikes = product.likes + 1;
-
-        this.productService
-          .likeProduct(id, updatedLikes)
-          .subscribe((updatedProduct) => {
-            this.products.set(
-              this.products().map((p) => (p._id === id ? updatedProduct : p))
-            );
-          });
-
-        return { ...product, likes: updatedLikes };
-      }
-      return product;
-    });
-
-    this.products.set(updatedProducts);
-  }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../../models/product';
 import { Observable } from 'rxjs';
@@ -17,11 +17,5 @@ export class ProductService {
 
   getById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
-  }
-
-  likeProduct(id: string, newLikes: number): Observable<Product> {
-    return this.http.patch<Product>(`${this.apiUrl}/${id}`, {
-      likes: newLikes,
-    });
   }
 }
