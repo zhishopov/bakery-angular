@@ -1,4 +1,3 @@
-// app.routes.ts
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -14,6 +13,13 @@ export const routes: Routes = [
   {
     path: 'menu',
     loadComponent: () => import('./features/menu/menu').then((c) => c.Menu),
+  },
+  {
+    path: 'products/:id',
+    loadComponent: () =>
+      import('./features/product-details/details/details').then(
+        (c) => c.Details
+      ),
   },
   {
     path: 'auth',

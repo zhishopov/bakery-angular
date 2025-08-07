@@ -1,0 +1,17 @@
+<h2>Product Details</h2>
+
+@if (product()) {
+<div>
+  <h3>{{ product()?.name }}</h3>
+  <p><strong>Description:</strong> {{ product()?.description }}</p>
+  <p><strong>Price:</strong> £{{ product()?.price }}</p>
+  <p><strong>Likes:</strong> {{ product()?.likes }}</p>
+  <img
+    [src]="'/assets/images/' + product()?.image"
+    [alt]="product()?.name"
+    width="300"
+  />
+</div>
+} @else {
+<p>Loading product...</p>
+}

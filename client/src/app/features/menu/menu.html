@@ -12,6 +12,7 @@
   />
   <p>Likes: {{ product.likes }}</p>
   <button (click)="likeProduct(product._id)">👍 Like</button>
+  <a [routerLink]="['/products', product._id]">Details</a>
   <hr />
 </div>
 } } @else {

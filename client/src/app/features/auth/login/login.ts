@@ -32,7 +32,6 @@ export class Login {
       password: ['', [Validators.required, Validators.minLength(5)]],
     });
 
-    // ✅ Check if redirected from register with success message
     const nav = this.router.getCurrentNavigation();
     const state = nav?.extras?.state as { message?: string };
     if (state?.message) {
@@ -78,7 +77,7 @@ export class Login {
   }
 
   onSubmit(): void {
-    this.serverError.set(null); // Reset previous error
+    this.serverError.set(null);
 
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
