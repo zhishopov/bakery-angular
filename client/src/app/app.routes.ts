@@ -22,6 +22,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'book',
+    loadComponent: () =>
+      import('./features/book-table/book-table').then((c) => c.BookTable),
+  },
+  {
     path: 'auth',
     children: [
       {
