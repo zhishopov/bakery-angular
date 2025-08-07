@@ -24,7 +24,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'book-table',
+    path: 'book',
     canMatch: [() => inject(AuthService).isLoggedIn],
     loadComponent: () =>
       import('./features/book-table/book-table').then((c) => c.BookTable),
