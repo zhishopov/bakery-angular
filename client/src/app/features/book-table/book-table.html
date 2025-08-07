@@ -1,1 +1,36 @@
-<p>book-table works!</p>
+<h2>Book a Table</h2>
+
+@if (successMessage()) {
+<p style="color: green">{{ successMessage() }}</p>
+} @if (errorMessage()) {
+<p style="color: red">{{ errorMessage() }}</p>
+}
+
+<form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" type="text" formControlName="name" />
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+  <div>
+    <label for="date">Date:</label>
+    <input id="date" type="date" formControlName="date" />
+  </div>
+
+  <div>
+    <label for="time">Time:</label>
+    <input id="time" type="time" formControlName="time" />
+  </div>
+
+  <div>
+    <label for="guests">Guests:</label>
+    <input id="guests" type="number" formControlName="guests" />
+  </div>
+
+  <button type="submit">Book</button>
+</form>

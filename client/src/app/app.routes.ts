@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
+import { inject } from '@angular/core';
 
 export const routes: Routes = [
   {
@@ -22,7 +24,8 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'book',
+    path: 'book-table',
+    canMatch: [() => inject(AuthService).isLoggedIn],
     loadComponent: () =>
       import('./features/book-table/book-table').then((c) => c.BookTable),
   },
