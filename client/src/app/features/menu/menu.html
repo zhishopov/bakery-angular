@@ -7,12 +7,19 @@
   <p>£{{ product.price }}</p>
   <img
     [src]="'assets/images/' + product.image"
-    alt="{{ product.name }}"
+    [alt]="product.name"
     width="200"
   />
-  <button type="button" [routerLink]="['/products', product._id]">
-    Details
-  </button>
+  <div style="margin-top: 8px">
+    <button type="button" [routerLink]="['/products', product._id]">
+      Details
+    </button>
+    @if (isAdmin) {
+    <button type="button" (click)="removeProduct(product._id)">
+      Remove from Menu
+    </button>
+    }
+  </div>
   <hr />
 </div>
 } } @else {
