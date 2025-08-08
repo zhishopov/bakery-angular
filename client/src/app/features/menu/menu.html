@@ -1,6 +1,10 @@
 <h2>Menu</h2>
 
-@if (products().length > 0) { @for (product of products(); track product._id) {
+@if (loading()) {
+<p>Loading products...</p>
+} @else if (products().length === 0) {
+<p>No products available.</p>
+} @else { @for (product of products(); track product._id) {
 <div>
   <h3>{{ product.name }}</h3>
   <p>{{ product.description }}</p>
@@ -8,25 +12,20 @@
 
   <img [src]="getImageSrc(product)" [alt]="product.name" width="200" />
 
+  <p>Likes: {{ countFor(product._id) }}</p>
+
+  @if (isLoggedIn) {
+  <button type="button" (click)="likeOrUnlike(product._id)">
+    {{ userHasLiked(product._id) ? "Unlike" : "Like" }}
+  </button>
+  }
+
   <div style="margin-top: 8px">
     <button type="button" [routerLink]="['/products', product._id]">
       Details
     </button>
-
-    @if (isAdmin) {
-    <button
-      type="button"
-      [routerLink]="['/admin/products', product._id, 'edit']"
-    >
-      Edit
-    </button>
-    <button type="button" (click)="removeProduct(product._id)">
-      Remove from Menu
-    </button>
-    }
   </div>
+
   <hr />
 </div>
-} } @else {
-<p>Loading products...</p>
-}
+} }
