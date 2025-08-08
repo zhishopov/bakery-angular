@@ -1,9 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../models/product';
-import { signal, effect } from '@angular/core';
 
 @Component({
   selector: 'app-details',
@@ -16,18 +15,27 @@ export class Details {
   private readonly productService = inject(ProductService);
 
   readonly product = signal<Product | null>(null);
+  readonly likesCount = signal<number>(0);
 
   constructor() {
-    effect(() => {
-      const id = this.route.snapshot.paramMap.get('id');
-      if (id) {
-        this.productService.getById(id).subscribe({
-          next: (p) => this.product.set(p),
-          error: (err) => {
-            console.error('Failed to fetch product:', err);
-          },
-        });
-      }
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+
+    this.productService.getById(id).subscribe({
+      next: (prod) => this.product.set(prod),
+      error: () => {},
     });
+
+    this.productService.getLikesCount(id).subscribe({
+      next: (count) => this.likesCount.set(count),
+      error: () => this.likesCount.set(0),
+    });
+  }
+
+  getImageSrc(product: Product | null): string {
+    if (!product?.image) return '';
+    return product.image.startsWith('data:')
+      ? product.image
+      : '/assets/images/' + product.image;
   }
 }

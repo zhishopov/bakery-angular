@@ -2,15 +2,11 @@
 
 @if (product()) {
 <div>
-  <h3>{{ product()?.name }}</h3>
-  <p><strong>Description:</strong> {{ product()?.description }}</p>
-  <p><strong>Price:</strong> £{{ product()?.price }}</p>
-  <p><strong>Likes:</strong> {{ product()?.likes }}</p>
-  <img
-    [src]="'/assets/images/' + product()?.image"
-    [alt]="product()?.name"
-    width="300"
-  />
+  <h3>{{ product()!.name }}</h3>
+  <p><strong>Description:</strong> {{ product()!.description }}</p>
+  <p><strong>Price:</strong> £{{ product()!.price }}</p>
+  <p><strong>Likes:</strong> {{ likesCount() }}</p>
+  <img [src]="getImageSrc(product())" [alt]="product()!.name" width="300" />
   <br />
   <button type="button" routerLink="/menu">← Back to Menu</button>
 </div>

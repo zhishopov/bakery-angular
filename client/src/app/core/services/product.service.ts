@@ -46,10 +46,10 @@ export class ProductService {
     });
   }
 
-  getLikesCount(productId: string): Observable<number> {
-    const query = encodeURIComponent(`productId="${productId}"`);
+  getLikesCount(productId: string) {
+    const where = encodeURIComponent(`productId="${productId}"`);
     return this.http.get<number>(
-      `${this.likesUrl}?where=${query}&distinct=_ownerId&count`
+      `http://localhost:3030/data/likes?where=${where}&distinct=_ownerId&count=true`
     );
   }
 }
