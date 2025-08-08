@@ -13,9 +13,9 @@
   <p>No bookings yet.</p>
   } @else {
   <ul>
-    @for (b of bookings(); track b._id) {
+    @for (booking of bookings(); track booking._id) {
     <li>
-      @if (editingId() === b._id) {
+      @if (editingId() === booking._id) {
       <form [formGroup]="editForm!" (ngSubmit)="saveEdit()">
         <input formControlName="name" placeholder="Name" />
         <input formControlName="email" placeholder="Email" type="email" />
@@ -27,10 +27,12 @@
       </form>
       } @else {
       <div>
-        <strong>{{ b.name }}</strong> • {{ b.email }} • {{ b.date }}
-        {{ b.time }} • Guests: {{ b.guests }}
-        <button type="button" (click)="startEdit(b)">Edit</button>
-        <button type="button" (click)="deleteBooking(b._id!)">Delete</button>
+        <strong>{{ booking.name }}</strong> • {{ booking.email }} •
+        {{ booking.date }} {{ booking.time }} • Guests: {{ booking.guests }}
+        <button type="button" (click)="startEdit(booking)">Edit</button>
+        <button type="button" (click)="deleteBooking(booking._id!)">
+          Delete
+        </button>
       </div>
       }
     </li>
@@ -42,36 +44,8 @@
 <hr />
 
 <section>
-  <h3>Add Menu Product</h3>
-  <form [formGroup]="productForm" (ngSubmit)="addProduct()">
-    <div>
-      <label>Name</label>
-      <input formControlName="name" />
-    </div>
-    <div>
-      <label>Price</label>
-      <input type="number" formControlName="price" min="0" step="0.01" />
-    </div>
-    <div>
-      <label>Description</label>
-      <textarea formControlName="description"></textarea>
-    </div>
-    <div>
-      <label>Image filename</label>
-      <input formControlName="image" placeholder="e.g. latte.webp" />
-    </div>
-    <div>
-      <label
-        ><input type="checkbox" formControlName="bestSeller" /> Best
-        seller</label
-      >
-    </div>
-    <div>
-      <label>Likes</label>
-      <input type="number" formControlName="likes" min="0" />
-    </div>
-    <button type="submit" [disabled]="productForm.invalid">
-      Create Product
-    </button>
-  </form>
+  <h3>Products</h3>
+  <button type="button" [routerLink]="['/admin/products']">
+    Create New Product
+  </button>
 </section>
