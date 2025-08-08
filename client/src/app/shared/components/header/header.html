@@ -5,11 +5,11 @@
     <a routerLink="/auth/register">Register</a>
     } @else {
     <span>Welcome, {{ userEmail }}</span>
-    <button (click)="logout()">Logout</button> | @if (isAdmin) {
-    <a routerLink="/admin/dashboard">Dashboard</a> | }
+    <button (click)="logout()">Logout</button> |
 
-    <a routerLink="/book">Book a Table</a> |
-    <a routerLink="/bookings">My Bookings</a>
-    }
+    <a routerLink="/book">Book a Table</a> | @if (!isAdmin) {
+    <a routerLink="/bookings">My Bookings</a> } @if (isAdmin) {
+    <a routerLink="/admin/dashboard">Dashboard</a>
+    } }
   </nav>
 </header>
