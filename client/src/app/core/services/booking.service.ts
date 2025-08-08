@@ -19,6 +19,12 @@ export class BookingService {
   private readonly auth = inject(AuthService);
   private readonly apiUrl = 'http://localhost:3030/data/bookings';
 
+  private headersForWrite() {
+    return this.auth.isAdmin
+      ? this.auth.getAdminHeaders()
+      : this.auth.getAuthHeaders();
+  }
+
   bookTable(booking: Booking): Observable<Booking> {
     return this.http.post<Booking>(this.apiUrl, booking, {
       headers: this.auth.getAuthHeaders(),
@@ -33,20 +39,21 @@ export class BookingService {
   }
 
   getAllBookings(): Observable<Booking[]> {
-    return this.http.get<Booking[]>(this.apiUrl, {
-      headers: this.auth.getAuthHeaders(),
-    });
+    const headers = this.auth.isAdmin
+      ? this.auth.getAdminHeaders()
+      : this.auth.getAuthHeaders();
+    return this.http.get<Booking[]>(this.apiUrl, { headers });
   }
 
   updateBooking(id: string, changes: Partial<Booking>): Observable<Booking> {
     return this.http.patch<Booking>(`${this.apiUrl}/${id}`, changes, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.headersForWrite(),
     });
   }
 
   deleteBooking(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.headersForWrite(),
     });
   }
 }
