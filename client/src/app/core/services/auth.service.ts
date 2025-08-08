@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 
 interface ApiUser {
@@ -16,9 +16,7 @@ interface User {
   accessToken: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly apiUrl = 'http://localhost:3030/users';
   private readonly _currentUser = signal<User | null>(null);
@@ -88,6 +86,15 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     return this._isLoggedIn();
+  }
+
+  get isAdmin(): boolean {
+    return !!this.currentUser && this.currentUser.email === 'admin@abv.bg';
+  }
+
+  getAuthHeaders(): HttpHeaders | undefined {
+    const token = this.token();
+    return token ? new HttpHeaders({ 'X-Authorization': token }) : undefined;
   }
 
   private mapApiUserToUser(apiUser: ApiUser): User {
