@@ -1,3 +1,4 @@
+// core/services/product.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -17,6 +18,7 @@ export class ProductService {
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
   private readonly apiUrl = 'http://localhost:3030/data/products';
+  private readonly likesUrl = 'http://localhost:3030/data/likes';
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
@@ -28,19 +30,26 @@ export class ProductService {
 
   create(product: ProductCreate): Observable<any> {
     return this.http.post<any>(this.apiUrl, product, {
-      headers: this.auth.getAdminHeaders(),
+      headers: this.auth.getAuthHeaders(),
     });
   }
 
   update(id: string, changes: Partial<ProductCreate>): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/${id}`, changes, {
-      headers: this.auth.getAdminHeaders(),
+      headers: this.auth.getAuthHeaders(),
     });
   }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.auth.getAdminHeaders(),
+      headers: this.auth.getAuthHeaders(),
     });
+  }
+
+  getLikesCount(productId: string): Observable<number> {
+    const query = encodeURIComponent(`productId="${productId}"`);
+    return this.http.get<number>(
+      `${this.likesUrl}?where=${query}&distinct=_ownerId&count`
+    );
   }
 }

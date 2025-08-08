@@ -6,36 +6,30 @@ import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
+  const auth = inject(AuthService);
   const router = inject(Router);
-  const errorService = inject(ErrorService);
+  const errors = inject(ErrorService);
+
+  const isApi = req.url.startsWith('http://localhost:3030/');
+  const isLogoutCall = req.url.endsWith('/users/logout');
 
   return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      const status = error.status;
+    catchError((err: HttpErrorResponse) => {
+      const msg =
+        err?.error?.message ||
+        err?.error?.error?.message ||
+        err.message ||
+        'Request failed.';
+      errors.setError(msg);
 
-      if ((status === 401 || status === 403) && authService.isLoggedIn) {
-        const msg = 'Your session has expired. Please log in again.';
-        errorService.setError(msg);
-
-        authService.logout().subscribe({
-          error: () => {
-            router.navigate(['/auth/login'], { state: { message: msg } });
-          },
-          complete: () => {
-            router.navigate(['/auth/login'], { state: { message: msg } });
-          },
+      if (isApi && err.status === 401 && !isLogoutCall) {
+        auth.forceLogout();
+        router.navigate(['/auth/login'], {
+          state: { message: 'Session expired. Please log in again.' },
         });
-      } else {
-        const msg =
-          error?.error?.message ||
-          error?.error?.error?.message ||
-          error.message ||
-          'Request failed.';
-        errorService.setError(msg);
       }
 
-      return throwError(() => error);
+      return throwError(() => err);
     })
   );
 };
