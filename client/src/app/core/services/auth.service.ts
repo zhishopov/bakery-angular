@@ -7,6 +7,7 @@ interface ApiUser {
   email: string;
   username: string;
   accessToken: string;
+  role?: 'admin' | 'user';
 }
 
 interface User {
@@ -14,6 +15,7 @@ interface User {
   email: string;
   username: string;
   accessToken: string;
+  role?: 'admin' | 'user';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -89,20 +91,26 @@ export class AuthService {
   }
 
   get isAdmin(): boolean {
-    return !!this.currentUser && this.currentUser.email === 'admin@abv.bg';
+    return this.currentUser?.role === 'admin';
   }
 
   getAuthHeaders(): HttpHeaders | undefined {
-    const token = this.token();
-    return token ? new HttpHeaders({ 'X-Authorization': token }) : undefined;
+    const accessToken = this.token();
+    return accessToken
+      ? new HttpHeaders({ 'X-Authorization': accessToken })
+      : undefined;
   }
 
   private mapApiUserToUser(apiUser: ApiUser): User {
+    const role: 'admin' | 'user' =
+      apiUser.role ?? (apiUser.email === 'admin@abv.bg' ? 'admin' : 'user');
+
     return {
       id: apiUser._id,
       username: apiUser.username,
       email: apiUser.email,
       accessToken: apiUser.accessToken,
+      role: role,
     };
   }
 }
