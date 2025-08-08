@@ -1,22 +1,36 @@
 <h2>My Bookings</h2>
 
-@if (loading()) {
-<p>Loading your bookings…</p>
-} @else if (error()) {
-<p style="color: red">{{ error() }}</p>
+@if (error()) {
+<p class="error">{{ error() }}</p>
+} @if (loading()) {
+<p>Loading…</p>
 } @else if (bookings().length === 0) {
 <p>You have no bookings yet.</p>
 } @else {
 <ul>
   @for (booking of bookings(); track booking._id) {
   <li>
-    <strong>{{ booking.name }}</strong> — {{ booking.email }}<br />
-    <span>Date:</span> {{ booking.date }} | <span>Time:</span>
-    {{ booking.time }} | <span>Guests:</span> {{ booking.guests }}
-    <br />
-    <button type="button" (click)="delete(booking._id)">Delete</button>
+    @if (editingId() === booking._id) {
+    <form [formGroup]="editForm!" (ngSubmit)="saveEdit()">
+      <input type="text" formControlName="name" placeholder="Name" />
+      <input type="email" formControlName="email" placeholder="Email" />
+      <input type="date" formControlName="date" />
+      <input type="time" formControlName="time" />
+      <input type="number" formControlName="guests" min="1" />
+      <button type="submit" [disabled]="editForm!.invalid">Save</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
+    } @else {
+    <div>
+      <strong>{{ booking.name }}</strong> • {{ booking.email }} •
+      {{ booking.date }} {{ booking.time }} • Guests: {{ booking.guests }}
+      <button type="button" (click)="startEdit(booking)">Edit</button>
+      <button type="button" (click)="deleteBooking(booking._id!)">
+        Delete
+      </button>
+    </div>
+    }
   </li>
-  <hr />
   }
 </ul>
 }
