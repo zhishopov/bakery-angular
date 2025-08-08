@@ -37,9 +37,13 @@ export const routes: Routes = [
   {
     path: 'bookings',
     canMatch: [
-      () =>
-        inject(AuthService).isLoggedIn ||
-        inject(Router).createUrlTree(['/auth/login']),
+      () => {
+        const auth = inject(AuthService);
+        const router = inject(Router);
+        if (!auth.isLoggedIn) return router.createUrlTree(['/auth/login']);
+        if (auth.isAdmin) return router.createUrlTree(['/admin/dashboard']);
+        return true;
+      },
     ],
     loadComponent: () =>
       import('./features/bookings/bookings').then((c) => c.Bookings),
