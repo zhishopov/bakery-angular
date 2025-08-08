@@ -4,11 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+
   {
     path: 'home',
     loadComponent: () => import('./features/home/home').then((c) => c.Home),
@@ -24,6 +21,7 @@ export const routes: Routes = [
         (c) => c.Details
       ),
   },
+
   {
     path: 'book',
     canMatch: [
@@ -48,6 +46,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/bookings/bookings').then((c) => c.Bookings),
   },
+
   {
     path: 'auth',
     children: [
@@ -63,14 +62,12 @@ export const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'admin',
     canMatch: [
-      () => {
-        const auth = inject(AuthService);
-        const router = inject(Router);
-        return auth.isAdmin || router.createUrlTree(['/home']);
-      },
+      () =>
+        inject(AuthService).isAdmin || inject(Router).createUrlTree(['/home']),
     ],
     children: [
       {
@@ -92,10 +89,15 @@ export const routes: Routes = [
             (c) => c.AdminProducts
           ),
       },
+      {
+        path: 'products/:id/edit',
+        loadComponent: () =>
+          import('./features/admin/admin-product-edit/admin-product-edit').then(
+            (c) => c.AdminProductEdit
+          ),
+      },
     ],
   },
-  {
-    path: '**',
-    redirectTo: '/home',
-  },
+
+  { path: '**', redirectTo: '/home' },
 ];
