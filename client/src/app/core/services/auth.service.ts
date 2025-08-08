@@ -101,6 +101,13 @@ export class AuthService {
       : undefined;
   }
 
+  getAdminHeaders(): HttpHeaders | undefined {
+    const token = this.token();
+    return token
+      ? new HttpHeaders({ 'X-Authorization': token, 'X-Admin': 'true' })
+      : undefined;
+  }
+
   private mapApiUserToUser(apiUser: ApiUser): User {
     const role: 'admin' | 'user' =
       apiUser.role ?? (apiUser.email === 'admin@abv.bg' ? 'admin' : 'user');
