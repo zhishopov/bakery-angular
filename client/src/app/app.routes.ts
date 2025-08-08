@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { AuthService } from './core/services/auth.service';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
 
 export const routes: Routes = [
   {
@@ -25,12 +26,21 @@ export const routes: Routes = [
   },
   {
     path: 'book',
-    canMatch: [() => inject(AuthService).isLoggedIn],
+    canMatch: [
+      () =>
+        inject(AuthService).isLoggedIn ||
+        inject(Router).createUrlTree(['/auth/login']),
+    ],
     loadComponent: () =>
       import('./features/book-table/book-table').then((c) => c.BookTable),
   },
   {
     path: 'bookings',
+    canMatch: [
+      () =>
+        inject(AuthService).isLoggedIn ||
+        inject(Router).createUrlTree(['/auth/login']),
+    ],
     loadComponent: () =>
       import('./features/bookings/bookings').then((c) => c.Bookings),
   },
@@ -51,12 +61,41 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canMatch: [
+      () => {
+        const auth = inject(AuthService);
+        const router = inject(Router);
+        //! Fix hardcoded email (add condition to check user is admin)
+        const isAdmin =
+          auth.isLoggedIn && auth.currentUser?.email === 'admin@abv.bg';
+        return isAdmin || router.createUrlTree(['/home']);
+      },
+    ],
     children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/admin/admin-dashboard/admin-dashboard').then(
+            (c) => c.AdminDashboard
+          ),
+      },
       {
         path: 'bookings',
         loadComponent: () =>
           import('./features/admin/admin-bookings/admin-bookings').then(
             (c) => c.AdminBookings
+          ),
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./features/admin/admin-products/admin-products').then(
+            (c) => c.AdminProducts
           ),
       },
     ],
