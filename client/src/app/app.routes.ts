@@ -65,10 +65,7 @@ export const routes: Routes = [
       () => {
         const auth = inject(AuthService);
         const router = inject(Router);
-        //! Fix hardcoded email (add condition to check user is admin)
-        const isAdmin =
-          auth.isLoggedIn && auth.currentUser?.email === 'admin@abv.bg';
-        return isAdmin || router.createUrlTree(['/home']);
+        return auth.isAdmin || router.createUrlTree(['/home']);
       },
     ],
     children: [
@@ -82,13 +79,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/admin/admin-dashboard/admin-dashboard').then(
             (c) => c.AdminDashboard
-          ),
-      },
-      {
-        path: 'bookings',
-        loadComponent: () =>
-          import('./features/admin/admin-bookings/admin-bookings').then(
-            (c) => c.AdminBookings
           ),
       },
       {
