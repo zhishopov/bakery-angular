@@ -11,12 +11,16 @@ import { AuthService } from '../../../core/services/auth.service';
 export class Header {
   private readonly authService = inject(AuthService);
 
-  get isLoggedIn() {
+  get isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
   }
 
-  get userEmail(): string | null {
-    return this.authService.currentUser?.email ?? null;
+  get isAdmin(): boolean {
+    return this.authService.isAdmin;
+  }
+
+  get userEmail(): string {
+    return this.authService.currentUser?.email ?? '';
   }
 
   logout(): void {
