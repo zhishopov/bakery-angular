@@ -94,30 +94,33 @@ export class AuthService {
     return this.currentUser?.role === 'admin';
   }
 
+  getToken(): string | null {
+    return this.token();
+  }
+
   getAuthHeaders(): HttpHeaders | undefined {
-    const accessToken = this.token();
+    const accessToken = this.getToken();
     return accessToken
       ? new HttpHeaders({ 'X-Authorization': accessToken })
       : undefined;
   }
 
   getAdminHeaders(): HttpHeaders | undefined {
-    const token = this.token();
-    return token
-      ? new HttpHeaders({ 'X-Authorization': token, 'X-Admin': 'true' })
+    const accessToken = this.getToken();
+    return accessToken
+      ? new HttpHeaders({ 'X-Authorization': accessToken, 'X-Admin': 'true' })
       : undefined;
   }
 
   private mapApiUserToUser(apiUser: ApiUser): User {
     const role: 'admin' | 'user' =
       apiUser.role ?? (apiUser.email === 'admin@abv.bg' ? 'admin' : 'user');
-
     return {
       id: apiUser._id,
       username: apiUser.username,
       email: apiUser.email,
       accessToken: apiUser.accessToken,
-      role: role,
+      role,
     };
   }
 }
