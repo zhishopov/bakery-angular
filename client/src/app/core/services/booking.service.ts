@@ -32,7 +32,9 @@ export class BookingService {
   }
 
   getMyBookings(userId: string): Observable<Booking[]> {
-    const url = `${this.apiUrl}?where=_ownerId="${userId}"`;
+    const where = encodeURIComponent(`_ownerId="${userId}"`);
+    const url = `${this.apiUrl}?where=${where}`;
+
     return this.http.get<Booking[]>(url, {
       headers: this.authHeaders(),
     });
