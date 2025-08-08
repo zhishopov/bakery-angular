@@ -8,13 +8,13 @@
 <p>You have no bookings yet.</p>
 } @else {
 <ul>
-  @for (b of bookings(); track b._id) {
+  @for (booking of bookings(); track booking._id) {
   <li>
-    <strong>{{ b.name }}</strong> — {{ b.email }}<br />
-    <span>Date:</span> {{ b.date }} | <span>Time:</span> {{ b.time }} |
-    <span>Guests:</span> {{ b.guests }}
+    <strong>{{ booking.name }}</strong> — {{ booking.email }}<br />
+    <span>Date:</span> {{ booking.date }} | <span>Time:</span>
+    {{ booking.time }} | <span>Guests:</span> {{ booking.guests }}
     <br />
-    <button type="button" (click)="delete(b._id)">Delete</button>
+    <button type="button" (click)="delete(booking._id)">Delete</button>
   </li>
   <hr />
   }
