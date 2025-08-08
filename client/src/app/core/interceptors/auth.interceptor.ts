@@ -3,14 +3,17 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(AuthService);
-  const token = auth.token();
-
+  const authService = inject(AuthService);
+  const token = authService.token();
   const isApi = req.url.startsWith('http://localhost:3030/');
-  if (token && isApi) {
-    req = req.clone({
-      setHeaders: { 'X-Authorization': token },
-    });
+
+  const needsAuth =
+    req.method !== 'GET' ||
+    req.url.includes('/data/bookings') ||
+    req.url.includes('/users');
+
+  if (isApi && token && needsAuth) {
+    req = req.clone({ setHeaders: { 'X-Authorization': token } });
   }
 
   return next(req);

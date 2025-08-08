@@ -82,6 +82,14 @@ export class AuthService {
       );
   }
 
+  forceLogout(): void {
+    this._currentUser.set(null);
+    this._isLoggedIn.set(false);
+    this.token.set(null);
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('accessToken');
+  }
+
   get currentUser(): User | null {
     return this._currentUser();
   }
