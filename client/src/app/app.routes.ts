@@ -30,6 +30,11 @@ export const routes: Routes = [
       import('./features/book-table/book-table').then((c) => c.BookTable),
   },
   {
+    path: 'bookings',
+    loadComponent: () =>
+      import('./features/bookings/bookings').then((c) => c.Bookings),
+  },
+  {
     path: 'auth',
     children: [
       {

@@ -103,8 +103,8 @@
         "Access-Control-Max-Age": "86400",
         "Content-Type": "application/json",
       };
-      let result = ""; // ✅ declare result outside try/catch
-      let context = null; // ✅ declare context outside try/catch
+      let result = "";
+      let context = null;
 
       if (method === "OPTIONS") {
         res.writeHead(204, headers);
