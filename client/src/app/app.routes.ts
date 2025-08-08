@@ -50,6 +50,18 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'admin',
+    children: [
+      {
+        path: 'bookings',
+        loadComponent: () =>
+          import('./features/admin/admin-bookings/admin-bookings').then(
+            (c) => c.AdminBookings
+          ),
+      },
+    ],
+  },
+  {
     path: '**',
     redirectTo: '/home',
   },
