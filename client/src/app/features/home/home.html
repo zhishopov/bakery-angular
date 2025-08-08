@@ -1,1 +1,39 @@
-<h2>Welcome to the Bakery Home Page</h2>
+<section class="home-hero">
+  <h1>Welcome to Sweet Crumbs Bakery</h1>
+  <p>Freshly baked goods, artisan coffee, and a cozy place to unwind.</p>
+
+  <div class="home-actions">
+    <a routerLink="/menu" class="btn">View Our Menu</a>
+    @if (isLoggedIn) {
+    <a routerLink="/book" class="btn primary">Book a Table</a>
+    }
+  </div>
+</section>
+
+<section class="home-featured">
+  <h2 class="home-section-title">Featured Products</h2>
+
+  @if (featuredProducts().length === 0) {
+  <p>Fresh picks coming out of the oven…</p>
+  } @else {
+  <div class="featured-grid">
+    @for (p of featuredProducts(); track p._id) {
+    <article class="product-card">
+      <img [src]="'/assets/images/' + p.image" [alt]="p.name" />
+      <h3>{{ p.name }}</h3>
+      <p class="price">£{{ p.price }}</p>
+      <a class="btn small" [routerLink]="['/products', p._id]">Details</a>
+    </article>
+    }
+  </div>
+  }
+</section>
+
+<section class="home-about">
+  <h2 class="home-section-title">About Us</h2>
+  <p>
+    At Sweet Crumbs Bakery, we believe in using the finest ingredients to bring
+    you fresh, mouth-watering treats every day. Whether you're here for a quick
+    coffee or to celebrate a special occasion, we’ve got you covered.
+  </p>
+</section>
