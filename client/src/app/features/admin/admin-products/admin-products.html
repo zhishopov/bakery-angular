@@ -29,19 +29,16 @@
     <p class="error">Description is required (min 5 characters).</p>
     }
   </div>
-
   <div>
-    <label>Image file name</label>
-    <input
-      type="text"
-      formControlName="image"
-      placeholder="e.g. cappuccino.jpg"
-    />
-    @if (f['image'].invalid && (f['image'].dirty || f['image'].touched)) {
-    <p class="error">Image file name is required.</p>
+    <label>Upload image</label>
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+    @if (imageDataUrl()) {
+    <div style="margin-top: 8px">
+      <strong>Preview:</strong><br />
+      <img [src]="imageDataUrl()!" alt="preview" width="160" />
+    </div>
     }
   </div>
-
   <div>
     <label>
       <input type="checkbox" formControlName="bestSeller" />
@@ -49,6 +46,8 @@
     </label>
   </div>
 
-  <button type="submit" [disabled]="form.invalid">Create</button>
+  <button type="submit" [disabled]="form.invalid && !imageDataUrl()">
+    Create
+  </button>
   <a routerLink="/admin/dashboard">Cancel</a>
 </form>

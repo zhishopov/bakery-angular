@@ -38,4 +38,9 @@ export class Menu {
       },
     });
   }
+
+  getImageSrc(product: Product): string {
+    const value = product.image || '';
+    return value.startsWith('data:') ? value : '/assets/images/' + value;
+  }
 }
