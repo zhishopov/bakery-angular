@@ -33,7 +33,7 @@ export class AdminProducts {
     bestSeller: [false],
   });
 
-  get f() {
+  get formControls() {
     return this.form.controls;
   }
 
@@ -49,8 +49,8 @@ export class AdminProducts {
     const reader = new FileReader();
     reader.onload = () => {
       this.imageDataUrl.set(reader.result as string);
-      if (!this.f['image'].value) {
-        this.f['image'].setErrors(null);
+      if (!this.formControls['image'].value) {
+        this.formControls['image'].setErrors(null);
       }
     };
     reader.onerror = () => {
@@ -65,9 +65,9 @@ export class AdminProducts {
   onSubmit(): void {
     this.serverError.set(null);
 
-    if (!this.imageDataUrl() && !this.f['image'].value) {
-      this.f['image'].markAsTouched();
-      this.f['image'].setErrors({ required: true });
+    if (!this.imageDataUrl() && !this.formControls['image'].value) {
+      this.formControls['image'].markAsTouched();
+      this.formControls['image'].setErrors({ required: true });
       return;
     }
 
@@ -77,12 +77,12 @@ export class AdminProducts {
     }
 
     const payload: ProductCreate = {
-      name: this.f['name'].value,
-      price: Number(this.f['price'].value),
-      description: this.f['description'].value,
-      image: this.imageDataUrl() || this.f['image'].value,
+      name: this.formControls['name'].value,
+      price: Number(this.formControls['price'].value),
+      description: this.formControls['description'].value,
+      image: this.imageDataUrl() || this.formControls['image'].value,
       likes: 0,
-      bestSeller: !!this.f['bestSeller'].value,
+      bestSeller: !!this.formControls['bestSeller'].value,
     };
 
     this.productService.create(payload).subscribe({
