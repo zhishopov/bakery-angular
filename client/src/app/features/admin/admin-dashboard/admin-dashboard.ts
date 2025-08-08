@@ -85,7 +85,9 @@ export class AdminDashboard {
     this.bookingService.updateBooking(id, changes).subscribe({
       next: (updated) => {
         this.bookings.set(
-          this.bookings().map((b) => (b._id === id ? { ...b, ...updated } : b))
+          this.bookings().map((booking) =>
+            booking._id === id ? { ...booking, ...updated } : booking
+          )
         );
         this.cancelEdit();
       },
@@ -99,7 +101,9 @@ export class AdminDashboard {
     if (!confirm('Delete this booking?')) return;
     this.bookingService.deleteBooking(id).subscribe({
       next: () => {
-        this.bookings.set(this.bookings().filter((b) => b._id !== id));
+        this.bookings.set(
+          this.bookings().filter((booking) => booking._id !== id)
+        );
       },
       error: (err) => {
         this.error.set(err?.error?.message || 'Failed to delete booking.');

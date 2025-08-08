@@ -28,19 +28,19 @@ export class ProductService {
 
   create(product: ProductCreate): Observable<any> {
     return this.http.post<any>(this.apiUrl, product, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.auth.getAdminHeaders(),
     });
   }
 
   update(id: string, changes: Partial<ProductCreate>): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/${id}`, changes, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.auth.getAdminHeaders(),
     });
   }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.auth.getAdminHeaders(),
     });
   }
 }
