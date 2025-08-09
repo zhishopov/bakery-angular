@@ -52,11 +52,21 @@ export const routes: Routes = [
     children: [
       {
         path: 'login',
+        canMatch: [
+          () =>
+            !inject(AuthService).isLoggedIn ||
+            inject(Router).createUrlTree(['/home']),
+        ],
         loadComponent: () =>
           import('./features/auth/login/login').then((c) => c.Login),
       },
       {
         path: 'register',
+        canMatch: [
+          () =>
+            !inject(AuthService).isLoggedIn ||
+            inject(Router).createUrlTree(['/home']),
+        ],
         loadComponent: () =>
           import('./features/auth/register/register').then((c) => c.Register),
       },
@@ -70,11 +80,7 @@ export const routes: Routes = [
         inject(AuthService).isAdmin || inject(Router).createUrlTree(['/home']),
     ],
     children: [
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
-      },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         loadComponent: () =>
