@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })
-export class AdminDashboard {
+export class AdminDashboard implements OnInit {
   private readonly bookingService = inject(BookingService);
   private readonly productService = inject(ProductService);
   private readonly fb = inject(FormBuilder);
@@ -42,7 +42,7 @@ export class AdminDashboard {
   readonly editingId = signal<string | null>(null);
   editForm: FormGroup | null = null;
 
-  constructor() {
+  ngOnInit(): void {
     this.loadBookings();
   }
 
