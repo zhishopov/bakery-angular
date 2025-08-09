@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Product } from '../../models/product';
@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
-export class Menu {
+export class Menu implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly likesService = inject(LikesService);
   private readonly authService = inject(AuthService);
@@ -23,17 +23,15 @@ export class Menu {
   readonly userLikes = signal<Record<string, Like | null>>({});
   readonly loading = signal<boolean>(false);
 
-  constructor() {
-    effect(() => {
-      this.loading.set(true);
-      this.productService.getAll().subscribe({
-        next: (products) => {
-          this.products.set(products);
-          this.loading.set(false);
-          this.refreshLikesForAll();
-        },
-        error: () => this.loading.set(false),
-      });
+  ngOnInit(): void {
+    this.loading.set(true);
+    this.productService.getAll().subscribe({
+      next: (products) => {
+        this.products.set(products);
+        this.loading.set(false);
+        this.refreshLikesForAll();
+      },
+      error: () => this.loading.set(false),
     });
   }
 
