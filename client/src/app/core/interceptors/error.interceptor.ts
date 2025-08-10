@@ -12,18 +12,27 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
   const isApi = req.url.startsWith('http://localhost:3030/');
   const isLogoutCall = req.url.endsWith('/users/logout');
+  const isAuthEndpoint =
+    req.url.includes('/users/login') || req.url.includes('/users/register');
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      const msg =
+      const message =
         err?.error?.message ||
         err?.error?.error?.message ||
         err.message ||
         'Request failed.';
-      errors.setError(msg);
+      errors.setError(message);
 
-      if (isApi && err.status === 401 && !isLogoutCall) {
-        auth.forceLogout();
+      if (
+        isApi &&
+        (err.status === 401 || err.status === 403) &&
+        !isLogoutCall &&
+        !isAuthEndpoint
+      ) {
+        if (auth.isLoggedIn) {
+          auth.forceLogout();
+        }
         router.navigate(['/auth/login'], {
           state: { message: 'Session expired. Please log in again.' },
         });
