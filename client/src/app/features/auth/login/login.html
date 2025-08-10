@@ -1,7 +1,11 @@
 <h2>Login</h2>
-@if (registrationSuccess) {
+
+@if (serverError()) {
+<p class="error">{{ serverError() }}</p>
+} @if (registrationSuccess) {
 <p class="success-message">Registration successful. Please log in.</p>
 }
+
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div>
     <label>Email:</label>
