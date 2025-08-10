@@ -5,10 +5,11 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../core/services/product.service';
 import { LikesService, Like } from '../../core/services/likes.service';
 import { AuthService } from '../../core/services/auth.service';
+import { PricePipe } from '../../shared/pipes/price-pipe';
 
 @Component({
   selector: 'app-menu',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PricePipe],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
