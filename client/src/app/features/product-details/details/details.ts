@@ -3,10 +3,11 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../models/product';
+import { PricePipe } from '../../../shared/pipes/price-pipe';
 
 @Component({
   selector: 'app-details',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PricePipe],
   templateUrl: './details.html',
   styleUrl: './details.css',
 })

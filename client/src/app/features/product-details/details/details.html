@@ -4,10 +4,7 @@
 <div>
   <h3>{{ product()!.name }}</h3>
   <p><strong>Description:</strong> {{ product()!.description }}</p>
-  <p>
-    <strong>Price:</strong>
-    {{ product()!.price | currency : "GBP" : "symbol" : "1.2-2" }}
-  </p>
+  <p><strong>Price:</strong> {{ product()!.price | price }}</p>
   <p><strong>Likes:</strong> {{ likesCount() }}</p>
   <img [src]="getImageSrc(product())" [alt]="product()!.name" width="300" />
   <br />

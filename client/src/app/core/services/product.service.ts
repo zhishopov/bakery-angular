@@ -1,8 +1,8 @@
-// core/services/product.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { Product } from '../../models/product';
 
 export interface ProductCreate {
   name: string;
@@ -20,14 +20,13 @@ export class ProductService {
   private readonly apiUrl = 'http://localhost:3030/data/products';
   private readonly likesUrl = 'http://localhost:3030/data/likes';
 
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  getById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getById(id: string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
-
   create(product: ProductCreate): Observable<any> {
     return this.http.post<any>(this.apiUrl, product, {
       headers: this.auth.getAuthHeaders(),
