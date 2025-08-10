@@ -5,9 +5,11 @@
     <a routerLink="/auth/login" class="nav-link">Login</a> |
     <a routerLink="/auth/register" class="nav-link">Register</a>
     } @else {
-    <span class="welcome-message">Welcome, {{ userEmail }}</span>
-    <button class="logout-btn" (click)="logout()">Logout</button> |
-
+    <div class="user-actions">
+      <span class="welcome-message">Welcome, {{ userEmail }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+    |
     <a routerLink="/book" class="nav-link">Book a Table</a> | @if (!isAdmin) {
     <a routerLink="/bookings" class="nav-link">My Bookings</a>
     } @if (isAdmin) {
