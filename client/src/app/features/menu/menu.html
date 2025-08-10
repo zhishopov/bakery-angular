@@ -1,29 +1,38 @@
-<h2>Menu</h2>
+<section class="menu">
+  <h2 class="page-title">Menu</h2>
 
-@if (loading()) {
-<p>Loading products...</p>
-} @else if (products().length === 0) {
-<p>No products available.</p>
-} @else { @for (product of products(); track product._id) {
-<div>
-  <h3>{{ product.name }}</h3>
-  <p>{{ product.price | price }}</p>
+  @if (loading()) {
+  <p class="loading">Loading products...</p>
+  } @else if (products().length === 0) {
+  <p class="empty">No products available.</p>
+  } @else {
+  <div class="menu-grid">
+    @for (product of products(); track product._id) {
+    <article class="product-card">
+      <img
+        [src]="getImageSrc(product)"
+        [alt]="product.name"
+        class="product-image"
+      />
 
-  <img [src]="getImageSrc(product)" [alt]="product.name" width="200" />
+      <div class="product-info">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-price">{{ product.price | price }}</p>
+        <p class="product-likes">Likes: {{ countFor(product._id) }}</p>
+      </div>
 
-  <p>Likes: {{ countFor(product._id) }}</p>
-
-  @if (isLoggedIn) {
-  <button type="button" (click)="likeOrUnlike(product._id)">
-    {{ userHasLiked(product._id) ? "Unlike" : "Like" }}
-  </button>
-  }
-
-  <div style="margin-top: 8px">
-    <button type="button" [routerLink]="['/products', product._id]">
-      Details
-    </button>
+      <div class="product-actions">
+        @if (isLoggedIn) {
+        <button type="button" class="btn" (click)="likeOrUnlike(product._id)">
+          {{ userHasLiked(product._id) ? "Unlike" : "Like" }}
+        </button>
+        }
+        <a class="btn outline" [routerLink]="['/products', product._id]">
+          Details
+        </a>
+      </div>
+    </article>
+    }
   </div>
-  <hr />
-</div>
-} }
+  }
+</section>
