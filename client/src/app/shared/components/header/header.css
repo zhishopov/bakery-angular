@@ -12,11 +12,28 @@ header > nav {
   margin: 0 auto;
   padding: 12px 16px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
   gap: 10px 20px;
   line-height: 1.2;
   font-size: 15px;
+  flex-wrap: wrap;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-left {
+  flex: 1 1 auto;
+  min-width: 260px;
+}
+
+.nav-right {
+  flex: 0 0 auto;
 }
 
 header a[routerlink] {
@@ -26,8 +43,14 @@ header a[routerlink] {
   border-radius: 4px;
   transition: background 0.2s ease-in-out;
 }
+
 header a[routerlink]:hover {
   background: rgba(255, 255, 255, 0.16);
+}
+
+nav a.active {
+  font-weight: 700;
+  text-decoration: underline;
 }
 
 header span {
@@ -43,15 +66,12 @@ header button {
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-header button:hover {
-  background: rgba(255, 255, 255, 0.16);
+  transition: background 0.2s ease-in-out, border-color 0.2s;
 }
 
-nav a.active {
-  font-weight: bold;
-  color: white;
+header button:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.85);
 }
 
 @media (max-width: 900px) {
@@ -59,6 +79,10 @@ nav a.active {
     padding: 12px;
     gap: 8px 14px;
     font-size: 14px;
+  }
+  .nav-left,
+  .nav-right {
+    gap: 10px;
   }
 }
 
@@ -71,5 +95,8 @@ nav a.active {
   header a[routerlink],
   header button {
     padding: 6px 8px;
+  }
+  .nav-left {
+    min-width: 200px;
   }
 }

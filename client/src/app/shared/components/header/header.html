@@ -1,20 +1,27 @@
 <header>
   <nav>
-    <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/menu" routerLinkActive="active">Menu</a>
+    <div class="nav-left">
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/menu" routerLinkActive="active">Menu</a>
 
-    @if (!isLoggedIn) {
-    <a routerLink="/auth/login" routerLinkActive="active">Login</a>
-    <a routerLink="/auth/register" routerLinkActive="active">Register</a>
-    } @else {
-    <span>Welcome, {{ userEmail }}</span>
-    <button (click)="logout()">Logout</button>
-    <a routerLink="/book" routerLinkActive="active">Book a Table</a>
+      @if (!isLoggedIn) {
+      <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+      <a routerLink="/auth/register" routerLinkActive="active">Register</a>
+      } @else {
+      <a routerLink="/book" routerLinkActive="active">Book a Table</a>
 
-    @if (!isAdmin) {
-    <a routerLink="/bookings" routerLinkActive="active">My Bookings</a>
-    } @if (isAdmin) {
-    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
-    } }
+      @if (!isAdmin) {
+      <a routerLink="/bookings" routerLinkActive="active">My Bookings</a>
+      } @if (isAdmin) {
+      <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      } }
+    </div>
+
+    @if (isLoggedIn) {
+    <div class="nav-right">
+      <span>Welcome, {{ userEmail }}</span>
+      <button (click)="logout()">Logout</button>
+    </div>
+    }
   </nav>
 </header>
