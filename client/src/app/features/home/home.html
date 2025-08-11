@@ -21,11 +21,7 @@
   <div class="featured-grid">
     @for (p of featuredProducts(); track p._id) {
     <article class="product-card">
-      <img
-        [src]="'/assets/images/' + p.image"
-        [alt]="p.name"
-        class="product-image"
-      />
+      <img [src]="getImageSrc(p)" [alt]="p.name" class="product-image" />
       <h3 class="product-name">{{ p.name }}</h3>
       <p class="price">£{{ p.price }}</p>
       <a class="btn small" [routerLink]="['/products', p._id]">Details</a>
