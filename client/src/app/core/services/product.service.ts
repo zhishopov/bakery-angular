@@ -20,6 +20,12 @@ export class ProductService {
   private readonly apiUrl = 'http://localhost:3030/data/products';
   private readonly likesUrl = 'http://localhost:3030/data/likes';
 
+  private headersForWrite() {
+    return this.auth.isAdmin
+      ? this.auth.getAdminHeaders()
+      : this.auth.getAuthHeaders();
+  }
+
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
@@ -27,28 +33,29 @@ export class ProductService {
   getById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
+
   create(product: ProductCreate): Observable<any> {
     return this.http.post<any>(this.apiUrl, product, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.headersForWrite(),
     });
   }
 
   update(id: string, changes: Partial<ProductCreate>): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/${id}`, changes, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.headersForWrite(),
     });
   }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.auth.getAuthHeaders(),
+      headers: this.headersForWrite(),
     });
   }
 
   getLikesCount(productId: string) {
     const where = encodeURIComponent(`productId="${productId}"`);
     return this.http.get<number>(
-      `http://localhost:3030/data/likes?where=${where}&distinct=_ownerId&count=true`
+      `${this.likesUrl}?where=${where}&distinct=_ownerId&count=true`
     );
   }
 }

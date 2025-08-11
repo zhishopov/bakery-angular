@@ -24,15 +24,8 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
         'Request failed.';
       errors.setError(message);
 
-      if (
-        isApi &&
-        (err.status === 401 || err.status === 403) &&
-        !isLogoutCall &&
-        !isAuthEndpoint
-      ) {
-        if (auth.isLoggedIn) {
-          auth.forceLogout();
-        }
+      if (isApi && err.status === 401 && !isLogoutCall && !isAuthEndpoint) {
+        if (auth.isLoggedIn) auth.forceLogout();
         router.navigate(['/auth/login'], {
           state: { message: 'Session expired. Please log in again.' },
         });
