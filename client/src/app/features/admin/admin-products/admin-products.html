@@ -1,62 +1,93 @@
-<h2>Create Product</h2>
+<section class="admin-products">
+  <h2 class="page-title">Create Product</h2>
 
-@if (serverError()) {
-<p class="server-error">{{ serverError() }}</p>
-}
+  @if (serverError()) {
+  <p class="alert error">{{ serverError() }}</p>
+  }
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Name</label>
-    <input type="text" formControlName="name" />
-    @if (formControls['name'].invalid && (formControls['name'].dirty ||
-    formControls['name'].touched)) {
-    <p class="error">Name is required (min 2 characters).</p>
-    }
-  </div>
+  <form class="product-form form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label" for="name">Name</label>
+        <input
+          id="name"
+          class="form-input"
+          type="text"
+          formControlName="name"
+        />
+        @if (formControls['name'].invalid && (formControls['name'].dirty ||
+        formControls['name'].touched)) {
+        <p class="field-error">Name is required (min 2 characters).</p>
+        }
+      </div>
 
-  <div>
-    <label>Price (£)</label>
-    <input type="number" step="0.01" formControlName="price" />
-    @if (formControls['price'].invalid && (formControls['price'].dirty ||
-    formControls['price'].touched)) {
-    <p class="error">Price is required and must be 0 or greater.</p>
-    }
-  </div>
+      <div class="form-row">
+        <label class="form-label" for="price">Price (£)</label>
+        <input
+          id="price"
+          class="form-input"
+          type="number"
+          step="0.01"
+          formControlName="price"
+        />
+        @if (formControls['price'].invalid && (formControls['price'].dirty ||
+        formControls['price'].touched)) {
+        <p class="field-error">Price is required and must be 0 or greater.</p>
+        }
+      </div>
 
-  <div>
-    <label>Description</label>
-    <textarea rows="4" formControlName="description"></textarea>
-    @if (formControls['description'].invalid &&
-    (formControls['description'].dirty || formControls['description'].touched))
-    {
-    <p class="error">Description is required (min 5 characters).</p>
-    }
-  </div>
+      <div class="form-row">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          id="description"
+          class="form-textarea"
+          rows="4"
+          formControlName="description"
+        ></textarea>
+        @if (formControls['description'].invalid &&
+        (formControls['description'].dirty ||
+        formControls['description'].touched)) {
+        <p class="field-error">Description is required (min 5 characters).</p>
+        }
+      </div>
 
-  <div>
-    <label>Upload image</label>
-    <input type="file" accept="image/*" (change)="onFileSelected($event)" />
-    @if (imageDataUrl()) {
-    <div style="margin-top: 8px">
-      <strong>Preview:</strong><br />
-      <img [src]="imageDataUrl()!" alt="preview" width="160" />
+      <div class="form-row">
+        <label class="form-label" for="image-file">Upload image</label>
+        <input
+          id="image-file"
+          class="form-input"
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+        />
+        <input type="hidden" formControlName="image" />
+        @if (imageDataUrl()) {
+        <div class="image-preview">
+          <strong>Preview:</strong>
+          <img [src]="imageDataUrl()!" alt="preview" />
+        </div>
+        }
+      </div>
+
+      <div class="form-row form-row-inline">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="bestSeller" />
+          <span>Mark as Best Seller</span>
+        </label>
+      </div>
     </div>
-    }
-  </div>
-  <div>
-    <label>
-      <input type="checkbox" formControlName="bestSeller" />
-      Mark as Best Seller
-    </label>
-  </div>
 
-  <button
-    type="submit"
-    [disabled]="
-      form.invalid || (!imageDataUrl() && !formControls['image'].value)
-    "
-  >
-    Create
-  </button>
-  <a routerLink="/admin/dashboard">Cancel</a>
-</form>
+    <div class="form-actions">
+      <button
+        class="btn primary"
+        type="submit"
+        [disabled]="
+          form.invalid || (!imageDataUrl() && !formControls['image'].value)
+        "
+      >
+        Create
+      </button>
+      <a class="btn ghost" routerLink="/admin/dashboard">Cancel</a>
+    </div>
+  </form>
+</section>
