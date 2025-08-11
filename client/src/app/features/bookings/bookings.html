@@ -1,84 +1,155 @@
-<h2>My Bookings</h2>
+<section class="bookings">
+  <h2 class="page-title">My Bookings</h2>
 
-@if (serverError()) {
-<p class="error">{{ serverError() }}</p>
-} @if (successMessage()) {
-<p class="success">{{ successMessage() }}</p>
-} @if (loading()) {
-<p>Loading…</p>
-} @else if (bookings().length === 0) {
-<p>No bookings yet.</p>
-} @else {
-<ul>
-  @for (booking of bookings(); track booking._id) {
-  <li>
-    @if (editingId() === booking._id) {
-    <form [formGroup]="editForm!" (ngSubmit)="saveEdit()">
-      <input formControlName="name" placeholder="Name" />
-      @if (editForm!.get('name')?.invalid && (editForm!.get('name')?.touched ||
-      editForm!.get('name')?.dirty)) {
-      <span class="field-error">Name is required (min 2).</span>
-      }
-
-      <input formControlName="email" placeholder="Email" type="email" />
-      @if (editForm!.get('email')?.invalid && (editForm!.get('email')?.touched
-      || editForm!.get('email')?.dirty)) {
-      <span class="field-error">Valid email is required.</span>
-      }
-
-      <input formControlName="date" type="date" />
-      @if (editForm!.get('date')?.invalid && (editForm!.get('date')?.touched ||
-      editForm!.get('date')?.dirty)) {
-      <span class="field-error">Date is required.</span>
-      }
-
-      <input formControlName="time" type="time" />
-      @if (editForm!.get('time')?.invalid && (editForm!.get('time')?.touched ||
-      editForm!.get('time')?.dirty)) {
-      <span class="field-error">Time is required.</span>
-      }
-
-      <input formControlName="guests" type="number" min="1" />
-      @if (editForm!.get('guests')?.invalid && (editForm!.get('guests')?.touched
-      || editForm!.get('guests')?.dirty)) {
-      <span class="field-error">Guests must be at least 1.</span>
-      }
-
-      <button
-        type="submit"
-        [disabled]="editForm!.invalid || actionLoadingId() === booking._id"
+  @if (serverError()) {
+  <p class="alert error">{{ serverError() }}</p>
+  } @if (successMessage()) {
+  <p class="alert success">{{ successMessage() }}</p>
+  } @if (loading()) {
+  <p class="loading">Loading…</p>
+  } @else if (bookings().length === 0) {
+  <p class="empty">No bookings yet.</p>
+  } @else {
+  <ul class="booking-list">
+    @for (booking of bookings(); track booking._id) {
+    <li class="booking-item">
+      @if (editingId() === booking._id) {
+      <form
+        class="booking-edit form"
+        [formGroup]="editForm!"
+        (ngSubmit)="saveEdit()"
       >
-        @if (actionLoadingId() === booking._id) { Saving… } @else { Save }
-      </button>
-      <button
-        type="button"
-        (click)="cancelEdit()"
-        [disabled]="actionLoadingId() === booking._id"
-      >
-        Cancel
-      </button>
-    </form>
-    } @else {
-    <div>
-      <strong>{{ booking.name }}</strong> • {{ booking.email }} •
-      {{ booking.date }} {{ booking.time }} • Guests: {{ booking.guests }}
-      <button
-        type="button"
-        (click)="startEdit(booking)"
-        [disabled]="actionLoadingId() === booking._id"
-      >
-        Edit
-      </button>
-      <button
-        type="button"
-        (click)="deleteBooking(booking._id!)"
-        [disabled]="actionLoadingId() === booking._id"
-      >
-        @if (actionLoadingId() === booking._id) { Deleting… } @else { Delete }
-      </button>
-    </div>
+        <div class="form-row">
+          <label class="form-label" for="name-{{ booking._id }}">Name</label>
+          <input
+            id="name-{{ booking._id }}"
+            class="form-input"
+            formControlName="name"
+            placeholder="Name"
+          />
+          @if (editForm!.get('name')?.invalid && (editForm!.get('name')?.touched
+          || editForm!.get('name')?.dirty)) {
+          <span class="field-error">Name is required (min 2).</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="email-{{ booking._id }}">Email</label>
+          <input
+            id="email-{{ booking._id }}"
+            class="form-input"
+            formControlName="email"
+            type="email"
+            placeholder="Email"
+          />
+          @if (editForm!.get('email')?.invalid &&
+          (editForm!.get('email')?.touched || editForm!.get('email')?.dirty)) {
+          <span class="field-error">Valid email is required.</span>
+          }
+        </div>
+
+        <div class="form-grid">
+          <div class="form-row">
+            <label class="form-label" for="date-{{ booking._id }}">Date</label>
+            <input
+              id="date-{{ booking._id }}"
+              class="form-input"
+              formControlName="date"
+              type="date"
+            />
+            @if (editForm!.get('date')?.invalid &&
+            (editForm!.get('date')?.touched || editForm!.get('date')?.dirty)) {
+            <span class="field-error">Date is required.</span>
+            }
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="time-{{ booking._id }}">Time</label>
+            <input
+              id="time-{{ booking._id }}"
+              class="form-input"
+              formControlName="time"
+              type="time"
+            />
+            @if (editForm!.get('time')?.invalid &&
+            (editForm!.get('time')?.touched || editForm!.get('time')?.dirty)) {
+            <span class="field-error">Time is required.</span>
+            }
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="guests-{{ booking._id }}"
+              >Guests</label
+            >
+            <input
+              id="guests-{{ booking._id }}"
+              class="form-input"
+              formControlName="guests"
+              type="number"
+              min="1"
+            />
+            @if (editForm!.get('guests')?.invalid &&
+            (editForm!.get('guests')?.touched ||
+            editForm!.get('guests')?.dirty)) {
+            <span class="field-error">Guests must be at least 1.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn primary"
+            [disabled]="editForm!.invalid || actionLoadingId() === booking._id"
+          >
+            @if (actionLoadingId() === booking._id) { Saving… } @else { Save }
+          </button>
+          <button
+            type="button"
+            class="btn ghost"
+            (click)="cancelEdit()"
+            [disabled]="actionLoadingId() === booking._id"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+      } @else {
+      <div class="booking-row">
+        <div class="booking-info">
+          <strong class="booking-name">{{ booking.name }}</strong>
+          <span class="booking-sep">•</span>
+          <span class="booking-email">{{ booking.email }}</span>
+          <span class="booking-sep">•</span>
+          <span class="booking-date">{{ booking.date }}</span>
+          <span class="booking-time">{{ booking.time }}</span>
+          <span class="booking-sep">•</span>
+          <span class="booking-guests">Guests: {{ booking.guests }}</span>
+        </div>
+
+        <div class="booking-actions">
+          <button
+            type="button"
+            class="btn small"
+            (click)="startEdit(booking)"
+            [disabled]="actionLoadingId() === booking._id"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            class="btn danger small"
+            (click)="deleteBooking(booking._id!)"
+            [disabled]="actionLoadingId() === booking._id"
+          >
+            @if (actionLoadingId() === booking._id) { Deleting… } @else { Delete
+            }
+          </button>
+        </div>
+      </div>
+      }
+    </li>
     }
-  </li>
+  </ul>
   }
-</ul>
-}
+</section>
