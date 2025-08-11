@@ -1,0 +1,80 @@
+header {
+  background: #d86f11;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+header > nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  line-height: 1.2;
+  font-size: 15px;
+}
+
+header a[routerlink] {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
+}
+header a[routerlink]:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+header span {
+  color: #ffffff;
+  opacity: 0.95;
+  padding: 6px 0;
+}
+
+header button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+header button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+header :is(a[routerlink], button):focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+nav a.active {
+  font-weight: bold;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  header > nav {
+    padding: 12px;
+    gap: 8px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  header > nav {
+    padding: 10px;
+    gap: 8px 10px;
+    font-size: 13.5px;
+  }
+  header a[routerlink],
+  header button {
+    padding: 6px 8px;
+  }
+}

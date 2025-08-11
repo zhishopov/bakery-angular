@@ -1,19 +1,20 @@
-<header class="site-header">
-  <nav class="navbar">
-    <a routerLink="/home" class="nav-link">Home</a> |
-    <a routerLink="/menu" class="nav-link">Menu</a> | @if (!isLoggedIn) {
-    <a routerLink="/auth/login" class="nav-link">Login</a> |
-    <a routerLink="/auth/register" class="nav-link">Register</a>
+<header>
+  <nav>
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/menu" routerLinkActive="active">Menu</a>
+
+    @if (!isLoggedIn) {
+    <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+    <a routerLink="/auth/register" routerLinkActive="active">Register</a>
     } @else {
-    <div class="user-actions">
-      <span class="welcome-message">Welcome, {{ userEmail }}</span>
-      <button class="logout-btn" (click)="logout()">Logout</button>
-    </div>
-    |
-    <a routerLink="/book" class="nav-link">Book a Table</a> | @if (!isAdmin) {
-    <a routerLink="/bookings" class="nav-link">My Bookings</a>
+    <span>Welcome, {{ userEmail }}</span>
+    <button (click)="logout()">Logout</button>
+    <a routerLink="/book" routerLinkActive="active">Book a Table</a>
+
+    @if (!isAdmin) {
+    <a routerLink="/bookings" routerLinkActive="active">My Bookings</a>
     } @if (isAdmin) {
-    <a routerLink="/admin/dashboard" class="nav-link">Dashboard</a>
+    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
     } }
   </nav>
 </header>
