@@ -35,9 +35,18 @@
     </div>
 
     <div class="form-actions">
-      <button class="btn primary" type="submit" [disabled]="loginForm.invalid">
+      <button
+        class="btn primary large"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
         Login
       </button>
+    </div>
+
+    <div class="register-prompt">
+      <p>Don't have an account?</p>
+      <a class="btn outline" routerLink="/auth/register">Register</a>
     </div>
   </form>
 </section>
