@@ -1,54 +1,86 @@
-<h2>Register</h2>
+<section class="auth register">
+  <h2 class="page-title">Register</h2>
 
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="username">Username:</label>
-    <input id="username" type="text" formControlName="username" />
-    @if (registerFormService.isUsernameError(registerForm)) {
-    <p style="color: red">
-      {{ registerFormService.getUsernameErrorMessage(registerForm) }}
-    </p>
-    }
-  </div>
-
-  <div>
-    <label for="email">Email:</label>
-    <input id="email" type="email" formControlName="email" />
-    @if (registerFormService.isEmailError(registerForm)) {
-    <p style="color: red">
-      {{ registerFormService.getEmailErrorMessage(registerForm) }}
-    </p>
-    }
-  </div>
-
-  <div [formGroupName]="'passwords'">
-    <div>
-      <label for="password">Password:</label>
-      <input id="password" type="password" formControlName="password" />
-    </div>
-    <div>
-      <label for="rePassword">Repeat Password:</label>
-      <input id="rePassword" type="password" formControlName="rePassword" />
-    </div>
-
-    @if (registerFormService.isPasswordError(registerForm)) {
-    <p style="color: red">
-      {{ registerFormService.getPasswordErrorMessage(registerForm) }}
-    </p>
-    } @if (registerFormService.isRePasswordError(registerForm)) {
-    <p style="color: red">
-      {{ registerFormService.getRePasswordErrorMessage(registerForm) }}
-    </p>
-    }
-  </div>
   @if (serverError) {
-  <div class="server-error">
-    {{ serverError }}
-  </div>
+  <p class="alert error">{{ serverError }}</p>
   }
-  <button type="submit">Register</button>
-  <p class="login-prompt">
-    Already have an account?
-    <a routerLink="/auth/login" class="login-button">Log In</a>
-  </p>
-</form>
+
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <label class="form-label" for="username">Username</label>
+      <input
+        id="username"
+        class="form-input"
+        type="text"
+        formControlName="username"
+      />
+      @if (registerFormService.isUsernameError(registerForm)) {
+      <p class="field-error">
+        {{ registerFormService.getUsernameErrorMessage(registerForm) }}
+      </p>
+      }
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="email">Email</label>
+      <input
+        id="email"
+        class="form-input"
+        type="email"
+        formControlName="email"
+      />
+      @if (registerFormService.isEmailError(registerForm)) {
+      <p class="field-error">
+        {{ registerFormService.getEmailErrorMessage(registerForm) }}
+      </p>
+      }
+    </div>
+
+    <div class="form-row-group" [formGroupName]="'passwords'">
+      <div class="form-row">
+        <label class="form-label" for="password">Password</label>
+        <input
+          id="password"
+          class="form-input"
+          type="password"
+          formControlName="password"
+        />
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="rePassword">Repeat Password</label>
+        <input
+          id="rePassword"
+          class="form-input"
+          type="password"
+          formControlName="rePassword"
+        />
+      </div>
+
+      @if (registerFormService.isPasswordError(registerForm)) {
+      <p class="field-error">
+        {{ registerFormService.getPasswordErrorMessage(registerForm) }}
+      </p>
+      } @if (registerFormService.isRePasswordError(registerForm)) {
+      <p class="field-error">
+        {{ registerFormService.getRePasswordErrorMessage(registerForm) }}
+      </p>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="btn primary"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
+    </div>
+
+    <p class="form-hint">
+      Already have an account?
+      <a routerLink="/auth/login" class="link">Log In</a>
+    </p>
+  </form>
+</section>
