@@ -23,6 +23,7 @@ export class AdminProducts {
   private readonly router = inject(Router);
 
   serverError = signal<string | null>(null);
+  clientErrorMessage = signal<string | null>(null);
   imageDataUrl = signal<string | null>(null);
 
   form: FormGroup = this.formBuilder.group({
@@ -39,6 +40,7 @@ export class AdminProducts {
 
   onFileSelected(event: Event) {
     this.serverError.set(null);
+    this.clientErrorMessage.set(null);
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) {
@@ -62,19 +64,28 @@ export class AdminProducts {
     reader.readAsDataURL(file);
   }
 
-  onSubmit(): void {
+  handleCreateClick(): void {
     this.serverError.set(null);
+    this.clientErrorMessage.set(null);
 
     if (!this.imageDataUrl() && !this.formControls['image'].value) {
-      this.formControls['image'].markAsTouched();
-      this.formControls['image'].setErrors({ required: true });
+      this.clientErrorMessage.set('All fields are required.');
+      this.form.markAllAsTouched();
       return;
     }
 
     if (this.form.invalid) {
+      this.clientErrorMessage.set('All fields are required.');
       this.form.markAllAsTouched();
       return;
     }
+
+    this.onSubmit();
+  }
+
+  onSubmit(): void {
+    this.serverError.set(null);
+    this.clientErrorMessage.set(null);
 
     const payload: ProductCreate = {
       name: this.formControls['name'].value,

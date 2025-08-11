@@ -5,7 +5,7 @@
   <p class="alert error">{{ serverError() }}</p>
   }
 
-  <form class="product-form form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form class="product-form form" [formGroup]="form">
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label" for="name">Name</label>
@@ -78,16 +78,14 @@
     </div>
 
     <div class="form-actions">
-      <button
-        class="btn primary"
-        type="submit"
-        [disabled]="
-          form.invalid || (!imageDataUrl() && !formControls['image'].value)
-        "
-      >
+      <button class="btn primary" type="button" (click)="handleCreateClick()">
         Create
       </button>
       <a class="btn ghost" routerLink="/admin/dashboard">Cancel</a>
     </div>
+
+    @if (clientErrorMessage()) {
+    <p class="alert error">{{ clientErrorMessage() }}</p>
+    }
   </form>
 </section>
