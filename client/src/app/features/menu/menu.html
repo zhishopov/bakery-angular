@@ -30,6 +30,15 @@
         <a class="btn outline" [routerLink]="['/products', product._id]">
           Details
         </a>
+        @if (isAdmin) {
+        <button
+          type="button"
+          class="btn danger"
+          (click)="removeProduct(product._id)"
+        >
+          Remove from Menu
+        </button>
+        }
       </div>
     </article>
     }

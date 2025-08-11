@@ -81,8 +81,22 @@ export class Menu implements OnInit {
     }
   }
 
+  removeProduct(id: string): void {
+    if (!confirm('Remove this product from the menu?')) return;
+    this.productService.delete(id).subscribe({
+      next: () => {
+        this.products.set(this.products().filter((p) => p._id !== id));
+      },
+      error: () => {},
+    });
+  }
+
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin;
   }
 
   getImageSrc(product: Product): string {
