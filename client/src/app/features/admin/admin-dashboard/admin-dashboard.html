@@ -1,51 +1,151 @@
-<h2>Admin Dashboard</h2>
+<section class="admin-dashboard">
+  <h2 class="page-title">Admin Dashboard</h2>
 
-@if (error()) {
-<p class="error">{{ error() }}</p>
-}
-
-<section>
-  <h3>All Bookings</h3>
-
-  @if (loading()) {
-  <p>Loading…</p>
-  } @else if (bookings().length === 0) {
-  <p>No bookings yet.</p>
-  } @else {
-  <ul>
-    @for (booking of bookings(); track booking._id) {
-    <li>
-      @if (editingId() === booking._id) {
-      <form [formGroup]="editForm!" (ngSubmit)="saveEdit()">
-        <input formControlName="name" placeholder="Name" />
-        <input formControlName="email" placeholder="Email" type="email" />
-        <input formControlName="date" type="date" />
-        <input formControlName="time" type="time" />
-        <input formControlName="guests" type="number" min="1" />
-        <button type="submit" [disabled]="editForm!.invalid">Save</button>
-        <button type="button" (click)="cancelEdit()">Cancel</button>
-      </form>
-      } @else {
-      <div>
-        <strong>{{ booking.name }}</strong> • {{ booking.email }} •
-        {{ booking.date }} {{ booking.time }} • Guests: {{ booking.guests }}
-        <button type="button" (click)="startEdit(booking)">Edit</button>
-        <button type="button" (click)="deleteBooking(booking._id!)">
-          Delete
-        </button>
-      </div>
-      }
-    </li>
-    }
-  </ul>
+  @if (error()) {
+  <p class="alert error">{{ error() }}</p>
   }
-</section>
 
-<hr />
+  <section class="admin-section">
+    <h3 class="section-title">All Bookings</h3>
 
-<section>
-  <h3>Products</h3>
-  <button type="button" [routerLink]="['/admin/products']">
-    Create New Product
-  </button>
+    @if (loading()) {
+    <p class="loading">Loading…</p>
+    } @else if (bookings().length === 0) {
+    <p class="empty">No bookings yet.</p>
+    } @else {
+    <ul class="booking-list">
+      @for (booking of bookings(); track booking._id) {
+      <li class="booking-item">
+        @if (editingId() === booking._id) {
+        <form
+          class="booking-edit form"
+          [formGroup]="editForm!"
+          (ngSubmit)="saveEdit()"
+        >
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="form-label" for="name-{{ booking._id }}"
+                >Name</label
+              >
+              <input
+                id="name-{{ booking._id }}"
+                class="form-input"
+                formControlName="name"
+                placeholder="Name"
+              />
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="email-{{ booking._id }}"
+                >Email</label
+              >
+              <input
+                id="email-{{ booking._id }}"
+                class="form-input"
+                formControlName="email"
+                type="email"
+                placeholder="Email"
+              />
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="date-{{ booking._id }}"
+                >Date</label
+              >
+              <input
+                id="date-{{ booking._id }}"
+                class="form-input"
+                formControlName="date"
+                type="date"
+              />
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="time-{{ booking._id }}"
+                >Time</label
+              >
+              <input
+                id="time-{{ booking._id }}"
+                class="form-input"
+                formControlName="time"
+                type="time"
+              />
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="guests-{{ booking._id }}"
+                >Guests</label
+              >
+              <input
+                id="guests-{{ booking._id }}"
+                class="form-input"
+                formControlName="guests"
+                type="number"
+                min="1"
+              />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn primary"
+              [disabled]="editForm!.invalid"
+            >
+              Save
+            </button>
+            <button type="button" class="btn ghost" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </form>
+        } @else {
+        <div class="booking-row">
+          <div class="booking-info">
+            <strong class="booking-name">{{ booking.name }}</strong>
+            <span class="booking-sep">•</span>
+            <span class="booking-email">{{ booking.email }}</span>
+            <span class="booking-sep">•</span>
+            <span class="booking-date">{{ booking.date }}</span>
+            <span class="booking-time">{{ booking.time }}</span>
+            <span class="booking-sep">•</span>
+            <span class="booking-guests">Guests: {{ booking.guests }}</span>
+          </div>
+
+          <div class="booking-actions">
+            <button
+              type="button"
+              class="btn small"
+              (click)="startEdit(booking)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn danger small"
+              (click)="deleteBooking(booking._id!)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        }
+      </li>
+      }
+    </ul>
+    }
+  </section>
+
+  <hr class="section-divider" />
+
+  <section class="admin-section">
+    <h3 class="section-title">Products</h3>
+    <button
+      type="button"
+      class="btn primary"
+      [routerLink]="['/admin/products']"
+    >
+      Create New Product
+    </button>
+  </section>
 </section>
