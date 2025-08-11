@@ -1,27 +1,43 @@
-<h2>Login</h2>
+<section class="auth login">
+  <h2 class="page-title">Login</h2>
 
-@if (serverError()) {
-<p class="error">{{ serverError() }}</p>
-} @if (registrationSuccess) {
-<p class="success-message">Registration successful. Please log in.</p>
-}
+  @if (serverError()) {
+  <p class="alert error">{{ serverError() }}</p>
+  } @if (registrationSuccess) {
+  <p class="alert success">Registration successful. Please log in.</p>
+  }
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Email:</label>
-    <input type="email" formControlName="email" />
-    @if (isEmailValid) {
-    <p style="color: red">{{ emailErrorMessage }}</p>
-    }
-  </div>
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <label class="form-label" for="email">Email</label>
+      <input
+        id="email"
+        class="form-input"
+        type="email"
+        formControlName="email"
+      />
+      @if (isEmailValid) {
+      <p class="field-error">{{ emailErrorMessage }}</p>
+      }
+    </div>
 
-  <div>
-    <label>Password:</label>
-    <input type="password" formControlName="password" />
-    @if (isPasswordValid) {
-    <p style="color: red">{{ passwordErrorMessage }}</p>
-    }
-  </div>
+    <div class="form-row">
+      <label class="form-label" for="password">Password</label>
+      <input
+        id="password"
+        class="form-input"
+        type="password"
+        formControlName="password"
+      />
+      @if (isPasswordValid) {
+      <p class="field-error">{{ passwordErrorMessage }}</p>
+      }
+    </div>
 
-  <button type="submit" [disabled]="loginForm.invalid">Login</button>
-</form>
+    <div class="form-actions">
+      <button class="btn primary" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+    </div>
+  </form>
+</section>
