@@ -2,9 +2,9 @@
   <h2 class="book-title">Book a Table</h2>
 
   @if (successMessage()) {
-  <p class="book-message success">{{ successMessage() }}</p>
+  <p class="book-message success" role="alert">{{ successMessage() }}</p>
   } @if (errorMessage()) {
-  <p class="book-message error">{{ errorMessage() }}</p>
+  <p class="book-message error" role="alert">{{ errorMessage() }}</p>
   }
 
   <form class="book-form" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
@@ -49,6 +49,7 @@
         <input
           id="guests"
           type="number"
+          min="1"
           class="form-input"
           formControlName="guests"
         />

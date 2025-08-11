@@ -42,7 +42,13 @@ export class BookTable {
       this.bookingService.bookTable(bookingData).subscribe({
         next: () => {
           this.successMessage.set('Table booked successfully!');
-          this.bookingForm.reset();
+          this.bookingForm.reset({
+            name: '',
+            email: '',
+            date: '',
+            time: '',
+            guests: 1,
+          });
         },
         error: (err) => {
           const msg =
@@ -53,6 +59,7 @@ export class BookTable {
         },
       });
     } else {
+      this.errorMessage.set('All fields are required.');
       this.bookingForm.markAllAsTouched();
     }
   }
