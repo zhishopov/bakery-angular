@@ -81,6 +81,10 @@ export class Menu implements OnInit {
     }
   }
 
+  editProduct(id: string): void {
+    this.router.navigate(['/admin/products', id, 'edit']);
+  }
+
   removeProduct(id: string): void {
     if (!confirm('Remove this product from the menu?')) return;
     this.productService.delete(id).subscribe({

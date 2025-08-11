@@ -33,6 +33,13 @@
         @if (isAdmin) {
         <button
           type="button"
+          class="btn outline"
+          (click)="editProduct(product._id)"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
           class="btn danger"
           (click)="removeProduct(product._id)"
         >
