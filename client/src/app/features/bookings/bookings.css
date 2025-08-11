@@ -1,0 +1,201 @@
+.bookings {
+  max-width: 1100px;
+  margin: 24px auto 40px;
+  padding: 0 16px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 30px;
+  margin: 0 0 20px;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: #555;
+  margin: 16px 0 0;
+  font-size: 16px;
+}
+
+.alert {
+  max-width: 720px;
+  margin: 0 auto 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.alert.error {
+  background: #ffe5e7;
+  color: #a10012;
+  border: 1px solid #ffd3d7;
+}
+.alert.success {
+  background: #e8f7ec;
+  color: #0a6a2b;
+  border: 1px solid #d6f0dc;
+}
+
+.booking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.booking-item {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+}
+
+.booking-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.booking-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  color: #333;
+  font-size: 15px;
+}
+.booking-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+.booking-sep {
+  color: #bbb;
+}
+.booking-email,
+.booking-date,
+.booking-time,
+.booking-guests {
+  color: #555;
+  font-size: 15px;
+}
+
+.booking-actions {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  background: #d86f11;
+  color: #fff;
+  text-decoration: none;
+  padding: 11px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: transform 0.08s ease-in-out, opacity 0.15s ease-in-out;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+.btn.small {
+  padding: 9px 13px;
+  font-size: 14px;
+}
+.btn.primary {
+  background: #d86f11;
+}
+.btn.ghost {
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+}
+.btn.ghost:hover {
+  background: #fafafa;
+}
+.btn.danger {
+  background: #c62828;
+}
+.btn.danger:hover {
+  opacity: 0.95;
+}
+
+.booking-edit.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.form-row {
+  display: grid;
+  gap: 7px;
+}
+
+.form-label {
+  font-size: 15px;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-input:focus {
+  outline: none;
+  border-color: #d86f11;
+  box-shadow: 0 0 0 3px rgba(216, 111, 17, 0.15);
+}
+
+.field-error {
+  color: #a10012;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .booking-row {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .booking-item {
+    padding: 14px;
+  }
+  .booking-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
