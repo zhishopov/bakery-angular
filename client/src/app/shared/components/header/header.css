@@ -49,11 +49,6 @@ header button:hover {
   background: rgba(255, 255, 255, 0.16);
 }
 
-header :is(a[routerlink], button):focus {
-  outline: 2px solid #ffffff;
-  outline-offset: 2px;
-}
-
 nav a.active {
   font-weight: bold;
   color: white;
