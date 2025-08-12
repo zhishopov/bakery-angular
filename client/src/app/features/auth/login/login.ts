@@ -79,24 +79,27 @@ export class Login {
   onSubmit(): void {
     this.serverError.set(null);
 
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-
-      this.authService.login(email, password).subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          this.markFormGroupTouched();
-
-          const errorMsg =
-            err?.error?.message ||
-            err?.error?.error?.message ||
-            'Login failed. Please try again.';
-          this.serverError.set(errorMsg);
-        },
-      });
+    if (this.loginForm.invalid) {
+      this.markFormGroupTouched();
+      this.serverError.set('All fields are required.');
+      return;
     }
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.markFormGroupTouched();
+        const errorMsg =
+          err?.error?.message ||
+          err?.error?.error?.message ||
+          'Login failed. Please try again.';
+        this.serverError.set(errorMsg);
+      },
+    });
   }
 
   private markFormGroupTouched(): void {
