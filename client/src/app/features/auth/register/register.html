@@ -37,6 +37,7 @@
     </div>
 
     <div class="form-row-group" [formGroupName]="'passwords'">
+      <!-- Password Field -->
       <div class="form-row">
         <label class="form-label" for="password">Password</label>
         <input
@@ -45,8 +46,14 @@
           type="password"
           formControlName="password"
         />
+        @if (registerFormService.isPasswordError(registerForm)) {
+        <p class="field-error">
+          {{ registerFormService.getPasswordErrorMessage(registerForm) }}
+        </p>
+        }
       </div>
 
+      <!-- Repeat Password Field -->
       <div class="form-row">
         <label class="form-label" for="rePassword">Repeat Password</label>
         <input
@@ -55,27 +62,16 @@
           type="password"
           formControlName="rePassword"
         />
+        @if (registerFormService.isRePasswordError(registerForm)) {
+        <p class="field-error">
+          {{ registerFormService.getRePasswordErrorMessage(registerForm) }}
+        </p>
+        }
       </div>
-
-      @if (registerFormService.isPasswordError(registerForm)) {
-      <p class="field-error">
-        {{ registerFormService.getPasswordErrorMessage(registerForm) }}
-      </p>
-      } @if (registerFormService.isRePasswordError(registerForm)) {
-      <p class="field-error">
-        {{ registerFormService.getRePasswordErrorMessage(registerForm) }}
-      </p>
-      }
     </div>
 
     <div class="form-actions">
-      <button
-        class="btn primary"
-        type="submit"
-        [disabled]="registerForm.invalid"
-      >
-        Register
-      </button>
+      <button class="btn primary" type="submit">Register</button>
     </div>
 
     <p class="form-hint">
